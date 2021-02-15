@@ -1,13 +1,4 @@
 
-PRINTF(1)		  BSD General Commands Manual		     PRINTF(1)
-
-NAME
-     printf -- formatted output
-
-SYNOPSIS
-     printf format [arguments ...]
-
-DESCRIPTION
      The printf utility formats and prints its arguments, after the first,
      under control of the format.  The format is a character string which con-
      tains three types of objects: plain characters, which are simply copied
