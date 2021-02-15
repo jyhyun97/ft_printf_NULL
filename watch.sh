@@ -6,5 +6,5 @@ while :;
   clear
   git log --graph --oneline
   sleep $2
-  echo -ne 'q'
+  echo q
 done
