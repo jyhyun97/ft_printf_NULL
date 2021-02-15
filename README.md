@@ -1,4 +1,5 @@
 
+
 PRINTF(1)		  BSD General Commands Manual		     PRINTF(1)
 
 NAME
