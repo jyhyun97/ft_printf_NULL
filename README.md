@@ -1,9 +1,8 @@
-### 규칙
-
+<span style="color:red">### 규칙
 - main에 push 할때는 모두의 동의가 필요하다 (push 전 branch 확인 필수)
 - main에 merge 할때는 모두의 동의가 필요하다
 - conflict 발생시 모두 모인 자리에서 수정한다
-
+</span>
 
 
 ### 작업 요령(최초 branch 생성부터)
