@@ -1,6 +1,6 @@
 ### 규칙
 
-- main에 push 할때는 모두의 동의가 필요하다 (push 전 branch 확인 필수)
+- <span style="color:red">main에 push 할때는 모두의 동의가 필요하다 (push 전 branch 확인 필수)</span>
 - main에 merge 할때는 모두의 동의가 필요하다
 - conflict 발생시 모두 모인 자리에서 수정한다
 
@@ -48,4 +48,3 @@ https://victorydntmd.tistory.com/91
 
 
 
-### 
