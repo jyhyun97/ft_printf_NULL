@@ -32,7 +32,10 @@ typedef	struct	s_list
 }				t_list;
 
 //ft_printf_utils.c
-void			ft_error(void);
 void			ft_lstadd(void);
+char			*ft_malloc_input(char *s, int len);
+
+char			*ft_ptr_int(int value, char *ptr, char c);
+char			*ft_strlcpy(char *s1, char *s2, char *s3);
 
 #endif
