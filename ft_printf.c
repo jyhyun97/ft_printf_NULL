@@ -76,22 +76,45 @@ int	find_per(const char *conv_c, char buf[])
 	}
 	return (0);
 }
-
+/*
+void *get_arg(va_list al, char buf)
+{
+	if (buf == 'c')
+		return (va_arg(al, char));
+	else if (buf == 's')
+		return (va_arg(al, char *));
+	//else if (buf == 'p')
+	else if (buf == 'd')
+		return (va_arg(al, int));
+	else if (buf == 'i')
+		return (va_arg(al, int));
+	else if (buf == 'u')
+		return (va_arg(al, long));
+	//else if (buf == 'x')
+	//else if (buf == 'X')
+	return (NULL);
+}
+*/
 int	ft_printf(const char *conv, ...)
 {
-	//va_list al;
-	char	buf[10000];
+	va_list al;
+	char	buf[10000] = {0,};
 	int		k;
 
 	k = 0;
 	find_per(conv, buf);
-	while (buf[k])
-		printf("%c\n",buf[k++]);
+	va_start(al, conv);
+	while (buf[k++])
+	{
+		//get_arg(al, buf[k]);
+		printf("%d\n",va_arg(al, int));
+	}
+	va_end(al);
 	return (0);
 }
 
 int main ()
 {
-	ft_printf("%d %% %c");
+	ft_printf("%d%d",1123123,1232);
 	return 0;
 }
