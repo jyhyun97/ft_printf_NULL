@@ -1,9 +1,6 @@
 #include <unistd.h>
 #include <stdarg.h>
-//bit flag
-//struct flag
-
-/*
+#include <stdio.h>
 
 typedef struct t_list
 {
@@ -11,66 +8,110 @@ typedef struct t_list
 	int		space_zero; // " ", 0
 	int		width; // .0000 소수점
 	int		length; //  
-}				s_list
+}				s_list;
 
-int checker(char *a)
+char	*ft_strchr(const char *s, int c)
 {
-    a++;
-    //%.....d
-    //%이후부터 잘라서 이동해준다... 
-	// 02-18 14시
-// ---------------------------------------------
-    //그 함수에서는 정보들을 조합해서 string을 하나 만들어준다.
-   
-    //%0.0d 
-    cspdiuxX%
-}
-
-int  format()
-{
-    //c, d 종류별 출력...
-    //c, d 까지 지나간 숫자 리턴 
-
-	return (1);
-}
-
-int print_rst(ap)
-{
-
-//while (format[i] != '\0')
-{
-    if (format[i] == '%')
+	while (*s)
 	{
-
-        i += checker(&format[i]);//서식 지정자인지 확인
-		i += format();
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
 	}
-    else
-        write(1, &format[i], 1); 출력;
-    i++;
-}
-*/
+	if (*s == '\0' && c == '\0')
+		return ((char*)s);
+	return (NULL);
 }
 
+static void  format(const char *str, char type, int len, va_list ap)
+{
+	printf("\n");
+	puts("-------------------------------------------");
+	printf("in format str: %s\n", str);
+	printf("in format type: %c, len: %d\n", type, len);
+	puts("-------------------------------------------");
+	if (type == 'c')
+		printf("call c: %c\n", va_arg(ap, int));
+	else if (type == 's')
+		printf("call s: %s\n", va_arg(ap, char *));
+	else if (type == 'p')
+		printf("call p: %p\n", va_arg(ap, void *));
+	else if (type == 'd')
+		printf("call d: %d\n", va_arg(ap, int));
+	else if (type == 'i')
+		printf("call i: %i\n", va_arg(ap, int));
+	else if (type == 'u')
+		printf("call u: %u\n", va_arg(ap, unsigned int));
+	else if (type == 'x')
+		printf("call x: %x\n", va_arg(ap, unsigned int));
+	else 
+		printf("call X: %X\n", va_arg(ap, unsigned int));
+	puts("--------------- end of format ------------------");
+}
+
+static int checker(const char *str, va_list ap)
+{
+	int i;
+	char *type_str = "cspdiuxX";
+	char *found;
+
+	i = 1;
+	if (str[1] == '%')
+	{
+		write(1, &str[i], 1);
+		return (i);
+	}
+	while (str[i])
+	{
+		if ((found = ft_strchr(type_str, str[i])))
+		{
+			format(str + 1, found[0], i, ap);
+			return (i);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int print_rst(va_list ap, const char *format)
+{
+    int i;
+    int len;
+
+
+    i = 0;
+    len = 0;
+	printf("============ in print_rst =================\n");
+    while (format[i])
+    {
+        if (format[i] == '%')
+            i += checker(&format[i], ap); //서식 지정자인지 확인
+        else
+            write(1, &format[i], 1);
+        i++;
+    }
+	printf("============ end of print_rst =================\n");
+	return (i);
+}
 
 int ft_printf(const char *format, ...)
 {
     int rst;
     va_list ap;
+
+	printf("============ in ft_printf =================\n");
+	printf("format: %s\n", format);
     va_start(ap, format);
-    //rst = 1111();
+    rst = print_rst(ap, format);
 	va_end(ap);
+	printf("============ end of ft_printf =================\n");
     return (rst);
 }
 
-//"asdfsafdasdf%dsadfsafsdfdsfsaf%d"
-
-va_arg(ap, /*자료형*/);
-
 int main(void)
 {
-	ft_printf("asdfsafdasdf%dsadfsafsdfdsfsaf%d", 10, 20);
+	char *tmp = "Hello, world!";
+
+	ft_printf("asdfsapercentstart:%%:Here 3dstart:%3d:sadfsafsdfdsfs:12d:start:%12dstr start:%s:this is end.\n", 10, 20, tmp);
 	return (0);
 }
-
-
