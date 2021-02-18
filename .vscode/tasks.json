@@ -6,7 +6,8 @@
             "command": "/usr/bin/gcc",
             "args": [
                 "-g",
-                "${file}",
+                "ft_printf_main.c",
+                "ft_utils.c",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
