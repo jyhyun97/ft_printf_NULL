@@ -34,11 +34,11 @@ void	*ft_memcpy(void *d, void const *s, size_t n)
 	return (d);
 }
 
-char    *set_dtarg(va_list ap, const char *a, int *k)
+char    *set_dtarg(va_list ap, char *a, int *k)
 {
     char    *pt_type;
 
-    while (a[*k] != 'd' || a[*k] != 'c' || a[*k] != 'i')
+    while (a[*k] != 'd' && a[*k] != 'c' && a[*k] != 'i')
         (*k)++;
     //if (!k)
     //    return (NULL);
@@ -54,8 +54,8 @@ int checker(va_list ap, const char *a)
     int k;
 
     k = 0;
-    //printf("%d",va_arg(ap, int));
-    res = set_dtarg(ap, a, &k);
+    printf("%d",va_arg(ap, int));
+    res = set_dtarg(ap, (char *)a, &k);
     return (k + 1);
     //a++;
     //%.....d
