@@ -1,5 +1,27 @@
 #include "ft_printf.h"
 
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char	*pb;
+	unsigned char	pc;
+
+	pb = b;
+	pc = c;
+	while (len-- > 0)
+		*pb++ = pc;
+	return (b);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void *rest;
+
+	if (!(rest = (void *)malloc(count * size)))
+		return (NULL);
+	ft_memset(rest, 0, (count * size));
+	return (rest);
+}
+
 char	*ft_strchr(const char *s, int c)
 {
 	size_t	len;
