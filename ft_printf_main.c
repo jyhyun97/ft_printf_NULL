@@ -1,75 +1,92 @@
 #include <unistd.h>
 #include <stdarg.h>
-//bit flag
-//struct flag
+#include <stdio.h>
 
-/*
-
-typedef struct t_list
+typedef struct t_flag
 {
-	int		flag;  // +, - 
-	int		space_zero; // " ", 0
-	int		width; // .0000 소수점
-	int		length; //  
-}				s_list
+	char	type; 
+}				s_flag;
+// %[flag][width][.precision][type]
 
-int checker(char *a)
+s_flag g_flag;
+
+void init_flag()
 {
+  g_flag.type = 0;
+}
+
+int print_a(va_list ap, char *a)
+{
+  int rst = 0;
+  if (g_flag.type == 'c')
+    rst = printf("%c", va_arg(ap, int));
+  else if (g_flag.type == 'd')
+    rst = printf("%d", va_arg(ap, int));
+  return rst; 
+}
+
+int checker(va_list ap, char *a)
+{
+    char *p = a;//원래 a 위치(서식지정자 판별 실패 시)
+    int rst;//지정된 서식지정자로 출력되는 인수의 총 크기(실패 시 0)
+    int i;
+
     a++;
-    //%.....d
-    //%이후부터 잘라서 이동해준다... 
-	// 02-18 14시
-// ---------------------------------------------
-    //그 함수에서는 정보들을 조합해서 string을 하나 만들어준다.
-   
-    //%0.0d 
-    cspdiuxX%
+    init_flag();
+    while(a[i] != '\0')
+    {
+        if (a[i] == 'd' || a[i] == 'c') 
+        {
+            g_flag.type = a[i];//char
+            i++;
+        }
+        if (g_flag.type != 0)
+            rst = print_a(ap, a);
+        else
+            rst = 0;
+        return (rst);
+    }   
 }
 
-int  format()
+
+int print_rst(va_list ap, const char *format)
 {
-    //c, d 종류별 출력...
-    //c, d 까지 지나간 숫자 리턴 
+int i;//인덱스
+int rst; //반환되어야할 총 문자열 길이
 
-	return (1);
-}
-
-int print_rst(ap)
-{
-
-//while (format[i] != '\0')
+rst = 0;
+i = 0;
+while (format[i] != '\0')
 {
     if (format[i] == '%')
-	{
-
-        i += checker(&format[i]);//서식 지정자인지 확인
-		i += format();
-	}
+	  {
+      i += checker(ap, format[i]);//서식 지정자인지 확인
+      rst++;
+	  }
     else
-        write(1, &format[i], 1); 출력;
-    i++;
+    {
+        write(1, &format[i], 1);//
+        rst++;
+    }
+  i++;
 }
-*/
+return (rst);
 }
 
 
 int ft_printf(const char *format, ...)
 {
-    int rst;
-    va_list ap;
-    va_start(ap, format);
-    //rst = 1111();
+  int rst;
+  va_list ap;
+  va_start(ap, format);
+  rst = print_rst(ap, format);
 	va_end(ap);
-    return (rst);
+  return (rst);
 }
-
-//"asdfsafdasdf%dsadfsafsdfdsfsaf%d"
-
-va_arg(ap, /*자료형*/);
 
 int main(void)
 {
-	ft_printf("asdfsafdasdf%dsadfsafsdfdsfsaf%d", 10, 20);
+	ft_printf("aaa%caaa%daaa", 'a', 20);
 	return (0);
 }
 
