@@ -85,6 +85,6 @@ int ft_printf(const char *format, ...)
 
 int main(void)
 {
-	ft_printf("asdfasd%%f %d as %d df %c %s",1818181818,19191919,'%',"mom! i did it!!");
+	ft_printf("asdfasd%%f %d as %d%c%s",1818181818,19191919,'%',"mom! i did it!!");
 	return (0);
 }
