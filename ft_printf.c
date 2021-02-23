@@ -6,7 +6,7 @@
 /*   By: jso <jso@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 11:59:39 by jso               #+#    #+#             */
-/*   Updated: 2021/02/23 12:11:45 by jso              ###   ########.fr       */
+/*   Updated: 2021/02/23 13:25:12 by jso              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_printf(char *fmt, ...)
 
 	cnt = 0;
 	va_start(ap, fmt);
+	printf("%s\n", fmt);
 	printf("%d\n", va_arg(ap, int));
 	va_end(ap);
 	++cnt;
