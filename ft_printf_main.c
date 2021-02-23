@@ -1,5 +1,33 @@
 #include "ft_printf.h"
 
+typedef struct _flag {
+    int minus;
+    int dot;
+    int width;
+    int aster;
+} Flag;
+
+void    init_flag(Flag *flag)
+{
+    flag->width = 0;
+    flag->minus = 0;
+    flag->dot = 0;
+}
+
+void    set_d(va_list ap, char **res, int *count)
+{
+    Flag    flag;
+
+    init_flag(&flag);
+    if (ft_strchr(*res, '-'))
+    else if(ft_strchr(*res, '.'))
+    else if(ft)
+    free(*res); //여기서 flag처리해주는 함수.. 구현해야함..실질적으로 각각 파싱기능으로 들어가는 함수 구현하는부분 시작
+    *res = ft_itoa(va_arg(ap, int));
+    *count = ft_strlen(*res);
+    write(1, *res, *count);
+    free(*res);
+}
 
 int set_res(va_list ap, char **res)
 {
@@ -7,13 +35,7 @@ int set_res(va_list ap, char **res)
 
     count = 0;
     if (ft_strchr(*res, 'd'))
-    {
-        free(*res); //여기서 flag처리해주는 함수.. 구현해야함..실질적으로 각각 파싱기능으로 들어가는 함수 구현하는부분 시작
-        *res = ft_itoa(va_arg(ap, int));
-        count = ft_strlen(*res);
-        write(1, *res, count);
-        free(*res);
-    }
+        set_d(ap, **res, &count);
     else if (ft_strchr(*res, 'c'))
     {
         free(*res);
