@@ -4,6 +4,12 @@
 
 typedef struct t_flag
 {
+  int   minus;
+  int   zero;
+  int   dot;
+  int   star;
+  int   width;
+  int   precision;
 	char	type; 
 }				s_flag;
 // %[flag][width][.precision][type]
@@ -12,63 +18,75 @@ s_flag g_flag;
 
 void init_flag()
 {
+  g_flag.minus = 0;
+  g_flag.zero = 0;
+  g_flag.dot = 0;
+  g_flag.star = 0;
+  g_flag.width = 0;
+  g_flag.precision = 0;
   g_flag.type = 0;
 }
 
-int print_a(va_list ap, char *a)
+void check_flag(char *a)
 {
-  int rst = 0;
-  if (g_flag.type == 'c')
-    rst = printf("%c", va_arg(ap, int));
-  else if (g_flag.type == 'd')
-    rst = printf("%d", va_arg(ap, int));
-  return rst; 
+  if (*a == '0')
+  {
+    g_flag->zero = 1;
+    a++;
+  }
+  if (*a == '.')
+  {
+    g_flag->dot = 1;
+    a++;
+  }
+  if (*a == '-')
+  {
+    g_flag->minus = 1;
+    a++;
+  }
+  if (*a == '*')
+  {
+    g_flag->star = 1;
+    a++;
+  }
+}
+
+void check_width(char *a, va_list ap)
+{
+
 }
 
 int checker(va_list ap, char *a)
 {
-    char *p = a;//원래 a 위치(서식지정자 판별 실패 시)
-    int rst;//지정된 서식지정자로 출력되는 인수의 총 크기(실패 시 0)
-    int i;
+    int rst = 0;
 
     a++;
     init_flag();
-    while(a[i] != '\0')
-    {
-        if (a[i] == 'd' || a[i] == 'c') 
-        {
-            g_flag.type = a[i];//char
-            i++;
-        }
-        if (g_flag.type != 0)
-            rst = print_a(ap, a);
-        else
-            rst = 0;
-        return (rst);
-    }   
+    check_flag(&a));//
+    check_width(&a, ap);//
+    check_precision(&a, ap);//
+    check_type(&a, ap);//
+    rst += print_all(ap);
+    return (rst);
 }
 
-
-int print_rst(va_list ap, const char *format)
+int print_rst(va_list ap, char *format)
 {
-int i;//인덱스
-int rst; //반환되어야할 총 문자열 길이
+int i = 0;//인덱스
+int rst = 0; //반환되어야할 총 문자열 길이
 
-rst = 0;
-i = 0;
-while (format[i] != '\0')
+while (*format != '\0')
 {
-    if (format[i] == '%')
+    if (*format == '%')
 	  {
-      i += checker(ap, format[i]);//서식 지정자인지 확인
-      rst++;
+      rst += checker(ap, &format);//서식 지정자인지 확인
 	  }
     else
     {
-        write(1, &format[i], 1);//
+        write(1, *format, 1);//
         rst++;
     }
-  i++;
+  format++;
 }
 return (rst);
 }
@@ -89,5 +107,3 @@ int main(void)
 	ft_printf("aaa%caaa%daaa", 'a', 20);
 	return (0);
 }
-
-
