@@ -6,7 +6,7 @@
 /*   By: jso <jso@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 11:59:39 by jso               #+#    #+#             */
-/*   Updated: 2021/02/23 13:25:12 by jso              ###   ########.fr       */
+/*   Updated: 2021/02/23 13:28:42 by jso              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ int	ft_printf(char *fmt, ...)
 int main(void)
 {
 	char *str;
+	int ret;
 
 	str = "Hello";
-	ft_printf(str, 'a');
+	ret = ft_printf(str, 'a');
+	printf("%d\n", ret);
 	return (0);
 }
