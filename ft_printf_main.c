@@ -9,6 +9,7 @@ typedef struct _flag {
     int aster;
     int prev_dot_v;
     int after_dot_v;
+    int no_dot_v;
     int value;
 } Flag;
 
@@ -22,27 +23,36 @@ void    init_flag_d(Flag *flag)
     flag->aster = 0;
     flag->prev_dot_v = 0;
     flag->after_dot_v = 0;
+    flag->no_dot_v = 0;
     flag->value = 0;
 }
+
+int set_d_flag(char **res, char a, int if_con)
+{
+    if (ft_strchr(*res, a) && !if_con)
+        return (1);
+    return (0);
+}
+
 Flag    set_d_opt(va_list ap, char **res)
 {
     Flag    flag;
-    //아침에 일어난다면 까먹지말고 함수포인터를 적용해라... 함수포인터를 적용해라...
+
     init_flag(&flag);
     flag.value = va_arg(ap, int);
-    if (ft_strchr(*res, ' '))
-        flag.space = 1;
-    if (ft_strchr(*res, '.'))
-        flag.dot = 1;
-    if (ft_strchr(*res, '0') && !flag.dot)
-        flag.zero = 1;
-    if (ft_strchr(*res, '+') && !flag.space)
-        flag.plus = 1;
-    if (ft_strchr(*res, '-') && !flag.zero)
-        flag.minus = 1;
-    if (flag.value < 0)
-        flag.space = 0;
-    if (flag.value >= 0 && flag.plus)
+    flag.space = set_d_flag(**res, ' ', 0);
+    flag.dot = set_d_flag(**res, '.', 0);
+    flag.zero = set_d_flag(**res, '0', flag.dot);
+    flag.plus = set_d_flag(**res, '+', flag.space);
+    flag.minus = set_d_flag(**res, '-', flag.zero);
+    if (flag.dot)
+    {
+        flag.prev_dot_v = 0; //do atoi...
+        flag.after_dot_v = 0;//do atoi...
+    }
+    else
+        flag.no_dot_v = 0;//do atoi...
+    if (flag.value < 0 || (flag.value >= 0 && flag.plus))
         flag.space = 0;
     return (flag);
 }
