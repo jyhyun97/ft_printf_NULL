@@ -2,26 +2,55 @@
 
 typedef struct _flag {
     int minus;
+    int plus;
+    int space;
+    int zero;
     int dot;
-    int width;
     int aster;
+    int prev_dot_v;
+    int after_dot_v;
+    int value;
 } Flag;
 
-void    init_flag(Flag *flag)
+void    init_flag_d(Flag *flag)
 {
-    flag->width = 0;
     flag->minus = 0;
+    flag->plus = 0;
+    flag->space = 0;
+    flag->zero = 0;
     flag->dot = 0;
+    flag->aster = 0;
+    flag->prev_dot_v = 0;
+    flag->after_dot_v = 0;
+    flag->value = 0;
 }
-
+Flag    set_d_opt(va_list ap, char **res)
+{
+    Flag    flag;
+    //아침에 일어난다면 까먹지말고 함수포인터를 적용해라... 함수포인터를 적용해라...
+    init_flag(&flag);
+    flag.value = va_arg(ap, int);
+    if (ft_strchr(*res, ' '))
+        flag.space = 1;
+    if (ft_strchr(*res, '.'))
+        flag.dot = 1;
+    if (ft_strchr(*res, '0') && !flag.dot)
+        flag.zero = 1;
+    if (ft_strchr(*res, '+') && !flag.space)
+        flag.plus = 1;
+    if (ft_strchr(*res, '-') && !flag.zero)
+        flag.minus = 1;
+    if (flag.value < 0)
+        flag.space = 0;
+    if (flag.value >= 0 && flag.plus)
+        flag.space = 0;
+    return (flag);
+}
 void    set_d(va_list ap, char **res, int *count)
 {
     Flag    flag;
 
-    init_flag(&flag);
-    if (ft_strchr(*res, '-'))
-    else if(ft_strchr(*res, '.'))
-    else if(ft)
+    flag = set_d_opt(ap, **res);
     free(*res); //여기서 flag처리해주는 함수.. 구현해야함..실질적으로 각각 파싱기능으로 들어가는 함수 구현하는부분 시작
     *res = ft_itoa(va_arg(ap, int));
     *count = ft_strlen(*res);
