@@ -1,74 +1,85 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdio.h>
+// %[flag][width][.precision][type]
 
 typedef struct t_flag
 {
+  int   minus;
+  int   zero;
+  int   precision;
+  int   star;
+  int   width;
 	char	type; 
 }				s_flag;
-// %[flag][width][.precision][type]
 
 s_flag g_flag;
 
 void init_flag()
 {
-  g_flag.type = 0;
+  g_flag->minus = 0;//왼쪽정렬 껐켰
+  g_flag->zero = 0;//0 패딩 공백 패딩 껐켰
+  g_flag->precision = -1;//정밀도 옵션 껐켰 precision~
+  g_flag->star = 0;//너비 가변 인자로 받아오는 거
+  g_flag->width = 0;//너비 받아오는 건데 star옵션이랑 중복될 경우는? 어떤 게 우선
+  g_flag->type = 0;//csdiupxX%같은 거 담아 놓기
 }
 
-int print_a(va_list ap, char *a)
+void check_flag(char *a)
 {
-  int rst = 0;
-  if (g_flag.type == 'c')
-    rst = printf("%c", va_arg(ap, int));
-  else if (g_flag.type == 'd')
-    rst = printf("%d", va_arg(ap, int));
-  return rst; 
+  int i = 0;
+  while (a[i] != '\0' && a[i] == '-' && a[i] == '0')
+  {
+    if (a[i] == '0')
+      g_flag->zero = 1;
+    if (a[i] == '-')
+      g_flag->minus = 1;
+  }
+}
+void check_width(char *a, va_list ap)
+{
+  //*, 숫자인 동안 while
+
+}
+void check_precision()
+{
+  //.으로 시작해서 *, digit 체크
+
+}
+void check_type()
+{
+  //csduipxX% 체크
+}
+int print_all();//출력되는 글자 기억해놓기~~~
+
+int checker(va_list ap, char *a)//한 글자씩? 한 서식 지정자 단위씩?
+{
+    int rst = 0;
+
+    init_flag();//플래그를 초기화시킨다
+    check_flag(&a));//플래그 나오는 동안 계속 안에서 돌려!!!! 예외사항도 고려를 해줘!
+    check_width(&a, ap);//얜 어차피 하나 밖에 없으니까 괜찮다 다만 플래그에서 * 있을 경우 고려~
+    check_precision(&a, ap);//점 나오면 0으로 지정하고 숫자 받기~!!
+    check_type(&a, ap);//얘가 안 나온다? 서식 지정자가 아니다 print all만들 때 꼭 참고
+    rst += print_all(ap);//서식지정자에 필요한 모든 정보가 모였으니 확인하고 처리 들어가기
+    return (rst);
 }
 
-int checker(va_list ap, char *a)
+int print_rst(va_list ap, char *format)
 {
-    char *p = a;//원래 a 위치(서식지정자 판별 실패 시)
-    int rst;//지정된 서식지정자로 출력되는 인수의 총 크기(실패 시 0)
-    int i;
+int i = 0;//인덱스
+int rst = 0; //반환되어야할 총 문자열 길이
 
-    a++;
-    init_flag();
-    while(a[i] != '\0')
-    {
-        if (a[i] == 'd' || a[i] == 'c') 
-        {
-            g_flag.type = a[i];//char
-            i++;
-        }
-        if (g_flag.type != 0)
-            rst = print_a(ap, a);
-        else
-            rst = 0;
-        return (rst);
-    }   
-}
-
-
-int print_rst(va_list ap, const char *format)
+while (*format != '\0')
 {
-int i;//인덱스
-int rst; //반환되어야할 총 문자열 길이
-
-rst = 0;
-i = 0;
-while (format[i] != '\0')
-{
-    if (format[i] == '%')
-	  {
-      i += checker(ap, format[i]);//서식 지정자인지 확인
-      rst++;
-	  }
+    if (*format == '%')
+      rst += checker(ap, &format + 1);//서식 지정자인지 확인
     else
     {
-        write(1, &format[i], 1);//
-        rst++;
+      write(1, *format, 1);//
+      rst++;
     }
-  i++;
+  format++;
 }
 return (rst);
 }
@@ -89,5 +100,3 @@ int main(void)
 	ft_printf("aaa%caaa%daaa", 'a', 20);
 	return (0);
 }
-
-
