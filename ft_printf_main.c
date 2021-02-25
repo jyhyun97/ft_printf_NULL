@@ -34,6 +34,41 @@ int set_d_flag(char **res, char a, int if_con)
     return (0);
 }
 
+int    set_prev_dot_v(Flag *flag, char **res)
+{
+    char    *tmp;
+    char    arr[1000];
+    int     point;
+    int     value;
+
+    ft_memset(arr, 0, 1000);
+    point = flag->space + flag->zero + flag->plus + flag->minus;
+    //flag가 중복일때는 오류가날것... 수정해야함.. 
+    tmp = *res + point;
+    while(*tmp++ == '.')
+        value++;
+    ft_memcpy(arr, *res + point, value);
+    if (!value)
+        return (0);
+    return (ft_atoi(arr));
+}
+
+int    set_after_dot_v(Flag *flag, char **res)
+{
+    char    *tmp;
+    char    arr[1000];
+    int     value;
+
+    ft_memset(arr, 0, 1000);
+    tmp = ft_strchr(*res, '.') + 1;
+    while (*tmp == 'd')
+        value++;
+    ft_memcpy(arr, tmp, value);
+    if (!value)
+        return (0);
+    return (ft_atoi(arr));
+}
+
 Flag    set_d_opt(va_list ap, char **res)
 {
     Flag    flag;
@@ -47,8 +82,8 @@ Flag    set_d_opt(va_list ap, char **res)
     flag.minus = set_d_flag(**res, '-', flag.zero);
     if (flag.dot)
     {
-        flag.prev_dot_v = 0; //do atoi...
-        flag.after_dot_v = 0;//do atoi...
+        flag.prev_dot_v = set_prev_dot_v(&flag, **res);
+        flag.after_dot_v = set_after_dot_v(&flag, **res);
     }
     else
         flag.no_dot_v = 0;//do atoi...
@@ -56,6 +91,7 @@ Flag    set_d_opt(va_list ap, char **res)
         flag.space = 0;
     return (flag);
 }
+
 void    set_d(va_list ap, char **res, int *count)
 {
     Flag    flag;
@@ -109,11 +145,8 @@ int checker(va_list ap, const char *a)
     int k;
 
     k = 0;
-    //printf("%d",va_arg(ap, int));
     res = set_dtarg((char *)a, &k);
     set_res(ap, &res);
-    // do something for res... and return res...
-    //write(1, res, ft_strlen(res));
     return (k + 1);
 }
 
