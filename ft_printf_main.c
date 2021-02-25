@@ -27,6 +27,7 @@ void init_flag()
 
 void check_flag(char *a)
 {
+
   int i = 0;
   while (a[i] != '\0' && a[i] == '-' && a[i] == '0')
   {
@@ -36,6 +37,10 @@ void check_flag(char *a)
       g_flag->minus = 1;
   }
 }
+
+void check_width(char *a, va_list ap)
+{
+}
 void check_width(char *a, va_list ap)
 {
   //*, 숫자인 동안 while
@@ -43,6 +48,7 @@ void check_width(char *a, va_list ap)
 }
 void check_precision()
 {
+
   //.으로 시작해서 *, digit 체크
 
 }
