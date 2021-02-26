@@ -36,9 +36,11 @@ int				flag_format_checker(const char *c);
 //ft_printf_format.c
 void			pf_format_checker(va_list ap, char c);
 char			*change_wpl(int len);
+void			wpl_negative(void);
 //ft_printf_string.c
 void			pf_format_s(char *ptr);
 void			pf_format_c(int value);
+void			pf_format_pc(char c);
 //ft_printf_xp.c
 void			pf_format_p(void *p, char c);
 void			pf_format_x(unsigned int x, char c);
@@ -47,7 +49,10 @@ char			*ft_hexadecimal(char c);
 void			ft_x_frist(char *ptr, char c, int len, int cp_len);
 int				ft_ux_len(unsigned int x, char c);
 int				ft_len(int len, unsigned long long p, char c);
-//ft_printf_u.c
+//ft_printf_diu.c
 void			pf_format_u(unsigned int x, char c);
+void			pf_format_di(int di, char c);
+//ft_printf_diu_utils.c
+char			*pf_di_input(char *ptr, int di, int len, int cp_len);
 
 #endif

@@ -8,8 +8,6 @@ static int	ft_strlen(char *ptr)
 	int		i;
 
 	i = 0;
-	if (!ptr)
-		return (0);
 	while (ptr[i])
 		i++;
 	return (i);
@@ -23,6 +21,8 @@ void		pf_format_s(char *ptr)
 	int		i;
 
 	i = -1;
+	if (!ptr)
+		ptr = "(null)";
 	len = ft_strlen(ptr);
 	tmp = change_wpl(len);
 	if (g_flag.dot == 1 && g_flag.precision < len)
@@ -55,6 +55,25 @@ void		pf_format_c(int value)
 		tmp[0] = (char)value;
 	else
 		tmp[len - 1] = (char)value;
+	ft_putchr(tmp, len);
+	ft_free_reset(tmp);
+}
+
+void		pf_format_pc(char c)
+{
+	char	*tmp;
+	int		len;
+
+	len = 1;
+	if (g_flag.minus == 1 && g_flag.zero == 1)
+		g_flag.zero = 0;
+	tmp = change_wpl(len);
+	if (g_flag.width > len)
+		len = g_flag.width;
+	if (g_flag.minus == 1)
+		tmp[0] = '%';
+	else
+		tmp[len - 1] = '%';
 	ft_putchr(tmp, len);
 	ft_free_reset(tmp);
 }

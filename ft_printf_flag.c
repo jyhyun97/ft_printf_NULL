@@ -35,6 +35,7 @@ int			wpl_check(char c, va_list ap)
 		else
 			g_flag.width =  va_arg(ap, int);
 	}
+	wpl_negative();
 	return (0);
 }
 
