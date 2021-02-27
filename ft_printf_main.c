@@ -5,6 +5,10 @@ typedef struct _flag {
     int plus;
     int space;
     int zero;
+    //int minus_count;
+    //int plus_count;
+    //int space_count;
+    //int zero_count;
     int dot;
     int aster;
     int prev_dot_v;
@@ -19,6 +23,10 @@ void    init_flag_d(Flag *flag)
     flag->plus = 0;
     flag->space = 0;
     flag->zero = 0;
+    //flag->minus_count = 0;
+    //flag->plus_count = 0;
+    //flag->space_count = 0;
+    //flag->zero_count = 0;
     flag->dot = 0;
     flag->aster = 0;
     flag->prev_dot_v = 0;
@@ -29,9 +37,21 @@ void    init_flag_d(Flag *flag)
 
 int set_d_flag(char **res, char a, int if_con)
 {
+    int count;
+    char *tmp;
+
+    count = 0;
+    tmp = *res;
     if (ft_strchr(*res, a) && !if_con)
-        return (1);
-    return (0);
+    {
+        while (*tmp)
+        {
+            if (*tmp == a)
+                count++;
+            tmp++;
+        }
+    }
+    return (count);
 }
 
 int    set_prev_dot_v(Flag *flag, char **res)
@@ -43,7 +63,6 @@ int    set_prev_dot_v(Flag *flag, char **res)
 
     ft_memset(arr, 0, 1000);
     point = flag->space + flag->zero + flag->plus + flag->minus;
-    //flag가 중복일때는 오류가날것... 수정해야함.. 
     tmp = *res + point;
     while(*tmp++ == '.')
         value++;
