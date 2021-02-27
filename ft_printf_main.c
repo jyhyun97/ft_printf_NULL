@@ -44,7 +44,9 @@ int set_d_flag(char **res, char a, int if_con)
     tmp = *res;
     if (ft_strchr(*res, a) && !if_con)
     {
-        while (*tmp)
+        if (a == '.')
+            return (1);
+        while (*tmp == '+' || *tmp == '-' || *tmp == '0' || *tmp == ' ')
         {
             if (*tmp == a)
                 count++;
@@ -75,10 +77,10 @@ int    set_prev_dot_v(Flag *flag, char **res)
 int    set_after_dot_v(Flag *flag, char **res)
 {
     char    *tmp;
-    char    arr[1000];
+    char    arr[20];
     int     value;
 
-    ft_memset(arr, 0, 1000);
+    ft_memset(arr, 0, 20);
     tmp = ft_strchr(*res, '.') + 1;
     while (*tmp == 'd')
         value++;
