@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jso <jso@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/23 11:59:39 by jso               #+#    #+#             */
-/*   Updated: 2021/03/02 16:00:30 by jso              ###   ########.fr       */
+/*   Created: 2021/03/02 16:01:18 by jso               #+#    #+#             */
+/*   Updated: 2021/03/02 16:29:43 by jso              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdarg.h>
-#include <stdio.h>
+#include "ft_printf.h"
 
-int	ft_printf(char *fmt, ...)
+size_t	ft_strlen(const char *str)
 {
-	va_list ap;
-	int n_byte;
-	char *dup_str;
+	unsigned int	i;
 
-	va_start(ap, fmt);
-	dup_str = ft_strdup(fmt);
-	n_byte = print_rst(ap, dup_str);
-	va_end(ap);
-	free (dup_str);
-	return (n_byte);
+	i = 0;
+	while (*str++)
+		++i;
+	return (i);
 }
 
-int main(void)
+char	*ft_strdup(const char *str)
 {
-	char *str;
-	int ret;
+	char			*str_2;
+	unsigned int	i;
 
-	str = "aaa%-5.*saaa%000*.*daaa\n";
-	ret = ft_printf(str, 2, "!@#$", 3, 4, 9999);
-	printf("return value\t: %d\n", ret);
-	return (0);
+	if (str == '\0')
+		return (0);
+	str_2 = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (str_2 == 0)
+		return (0);
+	i = 0;
+	while (*str)
+		*str_2++ = *str++;
+	*str_2 = '\0';
+	return (str_2);
 }
