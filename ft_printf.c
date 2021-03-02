@@ -16,7 +16,7 @@ int checker(va_list ap, char **a)
 
 int print_rst(va_list ap, char *format)
 {
-int i = 0;//인덱스
+//int i = 0;//인덱스
 int rst = 0; //반환되어야할 총 문자열 길이
 
 while (*format != '\0')
@@ -29,6 +29,7 @@ while (*format != '\0')
     else
     {
       write(1, format, 1);//
+      g_flag.count++;
       rst++;
     }
   format++;
@@ -38,16 +39,17 @@ return (rst);
 
 int ft_printf(const char *format, ...)
 {
-  int rst;
+  //int rst;
   char *a = ft_strdup(format);
+  g_flag.count = 0;
   va_list ap;
   va_start(ap, format);
-  rst = print_rst(ap, a);
+  print_rst(ap, a);
 	va_end(ap);
   free (a);
-  return (rst);
+  return ((int)g_flag.count);
 }
-
+/*
 int main(void)
 {
 	//printf("\n원본 \naaa%-5.*saaa%0-*.*daaa\n", 2, "!@#$", 3, 4, 9999);
@@ -56,3 +58,4 @@ int main(void)
   ft_printf("1234567890\n");
 	return (0);
 }
+*/

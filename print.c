@@ -25,12 +25,13 @@ int print_all(va_list ap)
   return (0);
 }
 
-int padding(size_t a)
+size_t padding(size_t byte)
 {
-  int i = 0;
-  while (i < g_flag.width - a)
+  size_t i = 0;
+  while (i < g_flag.width - byte)
   {
     write(1, " ", 1);
+    g_flag.count++;
     i++;
   }
   return (i);
@@ -43,14 +44,16 @@ int print_c(va_list ap)
   if (g_flag.minus)
   {
 	  write(1, &a, 1);
+    g_flag.count++;
 	  padding(1);
   }
   else
   {
 	  padding(1);
 	  write(1, &a, 1);
+    g_flag.count++;
   }
-  return (padding(1) + 1);
+  return (0);
 }
 
 
@@ -58,6 +61,8 @@ int print_s(va_list ap)
 {
   char *s = va_arg(ap, char *);
 	write(1, s, ft_strlen(s));
+  g_flag.count += ft_strlen(s);
+  return (0);
 }
 
 
@@ -147,6 +152,8 @@ int print_d(va_list ap)
 {
   char *s = ft_itoa(va_arg(ap, int));
 	write(1, s, ft_strlen(s));
+    g_flag.count += ft_strlen(s);
+  return (0);
 }
 
 //할 것 : 예외사항 먼저 처리하고, 경우에 따라 출력~!
