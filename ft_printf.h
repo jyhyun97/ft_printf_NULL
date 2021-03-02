@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 
-typedef struct t_flag
+typedef struct s_flag
 {
   int   minus;
   int   zero;
@@ -15,9 +15,9 @@ typedef struct t_flag
   int   width;
 	char	type;
   //int   star;
-}				s_flag;
+}				t_flag;
 
-s_flag g_flag;
+t_flag g_flag;
 
 void init_flag();
 char *check_flag(char *a);
@@ -26,7 +26,7 @@ char *check_precision(char *a, va_list ap);
 void check_type(char *a);
 
 int print_all(va_list ap);
-int print_all2(va_list ap);
+//int print_all2(va_list ap);
 int print_c(va_list ap);
 int print_s(va_list ap);
 int print_d(va_list ap);

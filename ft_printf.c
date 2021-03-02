@@ -5,12 +5,12 @@ int checker(va_list ap, char **a)
 {
     int rst = 0;
 
-    init_flag(g_flag);
-    *a = check_flag(*a);
-    *a = check_width(*a, ap);
-    *a = check_precision(*a, ap);
-    check_type(*a);
-    rst += print_all(ap);//예외처리, 출력 등
+    init_flag(g_flag);//check.c
+    *a = check_flag(*a);//check.c
+    *a = check_width(*a, ap);//check.c
+    *a = check_precision(*a, ap);//check.c
+    check_type(*a);//check.c
+    rst += print_all(ap);//예외처리, 출력 등 print.c
     return (rst);
 }
 
@@ -51,6 +51,8 @@ int ft_printf(const char *format, ...)
 int main(void)
 {
 	//printf("\n원본 \naaa%-5.*saaa%0-*.*daaa\n", 2, "!@#$", 3, 4, 9999);
-	ft_printf("aaa%-5.*saaa%000000*.*daaa\n", 2, "!@#$", 3, 4, 9999);
+	ft_printf("%10c\n",'a');
+	ft_printf("%-10c\n",'a');
+  ft_printf("1234567890\n");
 	return (0);
 }
