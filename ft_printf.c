@@ -50,6 +50,7 @@ int ft_printf(const char *format, ...)
 
 int main(void)
 {
-	ft_printf("aaa%-5.*saaa%0-*.*daaa\n", 2, "!@#$", 3, 4, 9999);
+	//printf("\n원본 \naaa%-5.*saaa%0-*.*daaa\n", 2, "!@#$", 3, 4, 9999);
+	ft_printf("aaa%-5.*saaa%000000*.*daaa\n", 2, "!@#$", 3, 4, 9999);
 	return (0);
 }

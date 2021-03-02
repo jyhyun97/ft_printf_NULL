@@ -1,6 +1,21 @@
 #include "ft_printf.h"
 
+
 int print_all(va_list ap)
+{
+  printf("\n구조체 출력 시작\n");
+  printf("minus : %d\n", g_flag.minus);
+  printf("zero : %d\n", g_flag.zero);
+  printf("width : %d\n", g_flag.width);
+  printf("pre : %d\n", g_flag.precision);
+  printf("type : %c\n", g_flag.type);
+  printf("구조체 출력 끝\n");
+  print_all2(ap);
+  printf("\n서식지정자 출력 끝\n");
+}
+
+
+int print_all2(va_list ap)
 {
   if (g_flag.type == 'c')
     print_c(ap);
@@ -10,6 +25,7 @@ int print_all(va_list ap)
     print_d(ap);
   return (0);
 }
+
 
 int print_c(va_list ap)
 {

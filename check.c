@@ -34,11 +34,14 @@ char *check_width(char *a, va_list ap)
     {
       g_flag.width = va_arg(ap, int);
       i++;
-    }
-    while (a[i] >= '0' && a[i] <= '9' && a[i] != '\0')
+    }  
+    else if(a[i] >= '0' && a[i] <= '9' && a[i] != '\0')
     {
-      g_flag.width = (g_flag.width * 10) + (a[i] - '0');
-      i++;
+      while (a[i] >= '0' && a[i] <= '9' && a[i] != '\0')
+      {
+        g_flag.width = (g_flag.width * 10) + (a[i] - '0');
+        i++;
+      }
     }
   }
   return (a + i);
@@ -58,10 +61,13 @@ char *check_precision(char *a, va_list ap)
         g_flag.precision = va_arg(ap, int);
         i++;
       }
-      while (a[i] >= '0' && a[i] <= '9' && a[i] != '\0')
+      else if (a[i] >= '0' && a[i] <= '9' && a[i] != '\0')
       {
-        g_flag.precision = (g_flag.precision * 10) + (a[i] - '0');
-        i++;
+        while (a[i] >= '0' && a[i] <= '9' && a[i] != '\0')
+        {
+          g_flag.precision = (g_flag.precision * 10) + (a[i] - '0');
+          i++;
+        }
       }
     }
   }
