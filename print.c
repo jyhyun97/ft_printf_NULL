@@ -13,9 +13,18 @@ int print_all(va_list ap)
   printf("\n서식지정자 출력 끝\n");
 }
 */
+void except(void)
+{
+  if (g_flag.width < 0)
+  {
+    g_flag.minus = 1;
+    g_flag.width *= -1;    
+  }
+}
 
 int print_all(va_list ap)
 {
+  except();
   if (g_flag.type == 'c')
     print_c(ap);
   if (g_flag.type == 's')
