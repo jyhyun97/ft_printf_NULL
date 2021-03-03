@@ -15,6 +15,7 @@ char *check_flag(char *a)
   int i = 0;
   while (a[i] != '\0' && (a[i] == '-' || a[i] == '0'))
   {
+	printf("a");
     if (a[i] == '0')
       g_flag.zero = 1;
     else if (a[i] == '-')
@@ -39,6 +40,7 @@ char *check_width(char *a, va_list ap)
     {
       while (a[i] >= '0' && a[i] <= '9')
       {
+        printf("b");
         g_flag.width = (g_flag.width * 10) + (a[i] - '0');
         i++;
       }
@@ -65,6 +67,7 @@ char *check_precision(char *a, va_list ap)
 	{
 	while (a[i] >= '0' && a[i] <= '9' && a[i] != '\0')
 	{
+    printf("c");
 		g_flag.precision = (g_flag.precision * 10) + (a[i] - '0');
 		i++;
 	}

@@ -1,79 +1,4 @@
 #include "ft_printf.h"
-/*
-int print_all(va_list ap)
-{
-  printf("\n구조체 출력 시작\n");
-  printf("minus : %d\n", g_flag.minus);
-  printf("zero : %d\n", g_flag.zero);
-  printf("width : %d\n", g_flag.width);
-  printf("pre : %d\n", g_flag.precision);
-  printf("type : %c\n", g_flag.type);
-  printf("구조체 출력 끝\n");
-  print_all2(ap);
-  printf("\n서식지정자 출력 끝\n");
-}
-*/
-void except(void)
-{
-  if (g_flag.width < 0)
-  {
-    g_flag.minus = 1; // 1 - 1 = 0
-    g_flag.width *= -1;    
-  }
-  if (g_flag.width == 0)
-  {
-    g_flag.width = 1;
-  }
-}
-
-void print_all(va_list ap)
-{
-  except();
-  if (g_flag.type == 'c')
-    print_c(ap);
-  if (g_flag.type == 's')
-    print_s(ap);
-  if (g_flag.type == 'd')
-    print_d(ap);
-}
-
-void padding(size_t byte)
-{
-  size_t i = 0;
-  while (i < g_flag.width - byte)
-  {
-    write(1, " ", 1);
-    g_flag.count++;
-    i++;
-  }
-}
-
-int print_c(va_list ap)
-{
-  char a = va_arg(ap, int);
-  if (g_flag.minus)
-  {
-	  write(1, &a, 1);
-    g_flag.count++;
-	  padding(1);
-  }
-  else
-  {
-	  padding(1);
-	  write(1, &a, 1);
-    g_flag.count++;
-  }
-  return (0);
-}
-
-
-int print_s(va_list ap)
-{
-  char *s = va_arg(ap, char *);
-	write(1, s, ft_strlen(s));
-  g_flag.count += ft_strlen(s);
-  return (0);
-}
 
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
@@ -156,6 +81,115 @@ char		*ft_itoa(int n)
 		fill_rst(rst, n);
 	return (rst);
 }
+
+/*
+int print_all(va_list ap)
+{
+  printf("\n구조체 출력 시작\n");
+  printf("minus : %d\n", g_flag.minus);
+  printf("zero : %d\n", g_flag.zero);
+  printf("width : %d\n", g_flag.width);
+  printf("pre : %d\n", g_flag.precision);
+  printf("type : %c\n", g_flag.type);
+  printf("구조체 출력 끝\n");
+  print_all2(ap);
+  printf("\n서식지정자 출력 끝\n");
+}
+*/
+void except(void)
+{
+  if (g_flag.width < 0)
+  {
+    g_flag.minus = 1; // 1 - 1 = 0
+    g_flag.width *= -1;    
+  }
+//  if (g_flag.width == 0)
+//    g_flag.width = 1;
+}
+
+void print_all(va_list ap)
+{
+  except();
+  if (g_flag.type == 'c')
+    print_c(ap);
+  if (g_flag.type == 's')
+    print_s(ap);
+  if (g_flag.type == 'd')
+    print_d(ap);
+}
+
+void padding(int byte)
+{
+  int i = 0;
+  while (i < g_flag.width - byte && (g_flag.width - byte > 0))
+  {
+    write(1, " ", 1);
+    g_flag.count++;
+    i++;
+  }
+}
+
+int print_c(va_list ap)
+{
+  char a = va_arg(ap, int);
+  if (g_flag.minus)
+  {
+	  write(1, &a, 1);
+    g_flag.count++;
+	  padding(1);
+  }
+  else
+  {
+	  padding(1);
+	  write(1, &a, 1);
+    g_flag.count++;
+  }
+  return (0);
+}
+
+/*
+int print_s(va_list ap)
+{
+  char *s = va_arg(ap, char *);
+	write(1, s, ft_strlen(s));
+	g_flag.count += ft_strlen(s);
+  return (0);
+}
+//0은 안됨  %0s
+//width는 s길이보다 크면 패딩 넣어 출력
+//- 부호 유효
+//정밀도는 s길이보다 작으면 잘라서 출력(음수 경우 무시)
+//가변인자가 NULL일 경우 (null)을 출력,  6바이트 반환
+*/
+
+int print_s(va_list ap)
+{
+	char *str = va_arg(ap, char *);
+	int len;
+
+	if (str == 0)
+		str = "(null)";
+	len = (int)ft_strlen(str);
+ 	char *a = ft_itoa(g_flag.width);
+ 	write(1, a, ft_strlen(a));
+  
+	if (len > g_flag.precision && (0 < g_flag.precision))
+		len = g_flag.precision;
+	if (g_flag.minus)
+	{
+		write(1, str, len);
+		g_flag.count += len;
+		padding(len);
+	}
+	else
+	{
+		padding(len);
+		write(1, str, len);
+		g_flag.count += len;
+	}
+	return (0);
+}
+
 
 
 int print_d(va_list ap)
