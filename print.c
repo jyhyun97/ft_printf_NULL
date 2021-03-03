@@ -17,7 +17,7 @@ void except(void)
 {
   if (g_flag.width < 0)
   {
-    g_flag.minus = 1;
+    g_flag.minus = 1; // 1 - 1 = 0
     g_flag.width *= -1;    
   }
   if (g_flag.width == 0)
@@ -26,7 +26,7 @@ void except(void)
   }
 }
 
-int print_all(va_list ap)
+void print_all(va_list ap)
 {
   except();
   if (g_flag.type == 'c')
@@ -35,10 +35,9 @@ int print_all(va_list ap)
     print_s(ap);
   if (g_flag.type == 'd')
     print_d(ap);
-  return (0);
 }
 
-size_t padding(size_t byte)
+void padding(size_t byte)
 {
   size_t i = 0;
   while (i < g_flag.width - byte)
@@ -47,10 +46,8 @@ size_t padding(size_t byte)
     g_flag.count++;
     i++;
   }
-  return (i);
 }
 
-//     a 6
 int print_c(va_list ap)
 {
   char a = va_arg(ap, int);

@@ -16,7 +16,7 @@ typedef struct s_flag
   int   width;
 	char	type;
   //int   star;
-  size_t	count;
+  int	count;
 }				t_flag;
 
 t_flag g_flag;
@@ -29,7 +29,7 @@ char *check_width(char *a, va_list ap);
 char *check_precision(char *a, va_list ap);
 void check_type(char *a);
 
-int print_all(va_list ap);
+void print_all(va_list ap);
 //int print_all2(va_list ap);
 int print_c(va_list ap);
 int print_s(va_list ap);

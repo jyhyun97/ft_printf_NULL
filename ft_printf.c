@@ -1,30 +1,27 @@
 // %[flag][width][.precision][type]
 #include "ft_printf.h"
 
-int checker(va_list ap, char **a)
+void checker(va_list ap, char **a)
 {
-    int rst = 0;
-
-    init_flag(g_flag);//check.c
+    init_flag();//check.c  구조체 초기화
     *a = check_flag(*a);//check.c 	=> '-'또는 '0' 확인 
     *a = check_width(*a, ap);//check.c
     *a = check_precision(*a, ap);//check.c
     check_type(*a);//check.c
-    rst += print_all(ap);//예외처리, 출력 등 print.c
-    return (rst);
+    print_all(ap);//예외처리, 출력 등 print.c
 }
 
-int print_rst(va_list ap, char *format)
+void print_rst(va_list ap, char *format)
 {
 //int i = 0;//인덱스
-int rst = 0; //반환되어야할 총 문자열 길이 => g_flag로 대체했어요.
+// int rst = 0; //반환되어야할 총 문자열 길이 => g_flag로 대체했어요.
 
 while (*format != '\0')
 {
     if (*format == '%')
     {  
       format++;
-      rst += checker(ap, &format);//서식 지정자인지 확인
+      checker(ap, &format);//서식 지정자인지 확인
     }
     else
     {
@@ -34,13 +31,12 @@ while (*format != '\0')
     }
   format++;
 }
-return (rst);
 }
 
 int ft_printf(const char *format, ...)
 {
 	//int rst;
-	char *a = ft_strdup(format);
+	char *a = ft_strdup(format); // 복제 필요성 유무 고민 중. 
 	g_flag.count = 0;
 	va_list ap;
 	va_start(ap, format);
