@@ -170,11 +170,10 @@ int print_s(va_list ap)
 	if (str == 0)
 		str = "(null)";
 	len = (int)ft_strlen(str);
- 	char *a = ft_itoa(g_flag.width);
- 	write(1, a, ft_strlen(a));
-  
 	if (len > g_flag.precision && (0 < g_flag.precision))
 		len = g_flag.precision;
+ 	//char *a = ft_itoa(g_flag.precision);
+ 	//write(1, a, ft_strlen(a));
 	if (g_flag.minus)
 	{
 		write(1, str, len);

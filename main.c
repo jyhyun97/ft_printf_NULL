@@ -19,5 +19,11 @@ int main(void)
 int main(void) 
 {
 ft_printf("%s", "abc");
+printf("\n-1\n");
+printf("%s", "abc");
+printf("\n-2\n");
+ft_printf("%-.7s", "abc"); // 오류 abcac
+printf("\n-3\n");
+printf("%-.7s", "abc");
 return(0);
 }
