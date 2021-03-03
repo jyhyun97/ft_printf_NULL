@@ -1,9 +1,12 @@
 
 #include <stdio.h>
+#include <unistd.h>
 
 int main ()
 {
-	printf("1|%0000000++++++++++++*d|\n",10, !0);
+	write(1, "\0", 1); //char *
+	write(1, "\n", 1);
+	printf("1|%*.c|\n",10,'3');
 	printf("1.1|%*.*d|\n", -10, 7, -123);
 	printf(" |1234567890|\n");
 	printf("2|%*.4d|\n", -10,-10);
