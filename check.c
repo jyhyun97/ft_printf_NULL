@@ -2,10 +2,10 @@
 
 void init_flag()
 {
-  g_flag.minus = 0;//0은 오른쪽 정렬 1은 왼족 정렬
-  g_flag.zero = 0;//0 패딩 0일 떄 공백 1일 때 0으로 패딩
+  g_flag.minus = 0;//0은 오른쪽 정렬 1은 왼쪽 정렬
+  g_flag.zero = 0;//패딩 0일 때 공백, 1일 때 0으로 패딩
   g_flag.precision = -1;//정밀도 있으면 기본 0, 뒤 숫자 width처럼 저장
-  g_flag.width = 0;//너비 *으로 받아오기 or atio 받아오기
+  g_flag.width = 0;//너비 *으로 받아오기 or atoi 받아오기
   g_flag.type = 0;//csdiupxX% 담아놓기
   //g_flag->star;//굳이 필요 할까?
 }

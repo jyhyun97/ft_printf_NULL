@@ -19,7 +19,9 @@ int main(void)
 int main(void) 
 {
 	char c = 'a';
+
 assert(printf("-->|%-4.c|<--\n", c) == ft_printf("-->|%-4.c|<--\n", c));
+
 assert(printf("-->|%-4c|<--\n", c) == ft_printf("-->|%-4c|<--\n", c));
 assert(printf("-->|%-3.c|<--\n", c) == ft_printf("-->|%-3.c|<--\n", c));
 assert(printf("-->|%-3c|<--\n", c) == ft_printf("-->|%-3c|<--\n", c));
@@ -58,6 +60,7 @@ assert(printf("-->|%4c|<--\n", c) == ft_printf("-->|%4c|<--\n", c));
 assert(printf("-->|%--4.c|<--\n", c) == ft_printf("-->|%--4.c|<--\n", c));
 assert(printf("-->|%--4c|<--\n", c) == ft_printf("-->|%--4c|<--\n", c));
 assert(printf("-->|%--3.c|<--\n", c) == ft_printf("-->|%--3.c|<--\n", c));
+
 assert(printf("-->|%--3c|<--\n", c) == ft_printf("-->|%--3c|<--\n", c));
 assert(printf("-->|%--2.c|<--\n", c) == ft_printf("-->|%--2.c|<--\n", c));
 assert(printf("-->|%--2c|<--\n", c) == ft_printf("-->|%--2c|<--\n", c));
@@ -91,5 +94,6 @@ assert(printf("-->|%-3.c|<--\n", c) == ft_printf("-->|%-3.c|<--\n", c));
 assert(printf("-->|%-3c|<--\n", c) == ft_printf("-->|%-3c|<--\n", c));
 assert(printf("-->|%-4.c|<--\n", c) == ft_printf("-->|%-4.c|<--\n", c));
 assert(printf("-->|%-4c|<--\n", c) == ft_printf("-->|%-4c|<--\n", c));
+
 return(0);
 }

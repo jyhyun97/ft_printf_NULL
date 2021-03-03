@@ -6,7 +6,7 @@ int checker(va_list ap, char **a)
     int rst = 0;
 
     init_flag(g_flag);//check.c
-    *a = check_flag(*a);//check.c
+    *a = check_flag(*a);//check.c 	=> '-'또는 '0' 확인 
     *a = check_width(*a, ap);//check.c
     *a = check_precision(*a, ap);//check.c
     check_type(*a);//check.c
@@ -17,7 +17,7 @@ int checker(va_list ap, char **a)
 int print_rst(va_list ap, char *format)
 {
 //int i = 0;//인덱스
-int rst = 0; //반환되어야할 총 문자열 길이
+int rst = 0; //반환되어야할 총 문자열 길이 => g_flag로 대체했어요.
 
 while (*format != '\0')
 {
@@ -30,7 +30,7 @@ while (*format != '\0')
     {
       write(1, format, 1);//
       g_flag.count++;
-      rst++;
+    //   rst++;   // g_flag로 대체했어요
     }
   format++;
 }
@@ -39,15 +39,15 @@ return (rst);
 
 int ft_printf(const char *format, ...)
 {
-  //int rst;
-  char *a = ft_strdup(format);
-  g_flag.count = 0;
-  va_list ap;
-  va_start(ap, format);
-  print_rst(ap, a);
+	//int rst;
+	char *a = ft_strdup(format);
+	g_flag.count = 0;
+	va_list ap;
+	va_start(ap, format);
+	print_rst(ap, a);
 	va_end(ap);
-  free (a);
-  return ((int)g_flag.count);
+	free (a);
+	return ((int)g_flag.count);
 }
 /*
 int main(void)

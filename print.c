@@ -20,6 +20,10 @@ void except(void)
     g_flag.minus = 1;
     g_flag.width *= -1;    
   }
+  if (g_flag.width == 0)
+  {
+    g_flag.width = 1;
+  }
 }
 
 int print_all(va_list ap)
