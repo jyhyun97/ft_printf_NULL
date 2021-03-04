@@ -116,14 +116,20 @@ void print_all(va_list ap)
     print_s(ap);
   if (g_flag.type == 'd')
     print_d(ap);
+  if (g_flag.type == '%')
+    print_percent();  
 }
 
 void padding(int byte)
 {
   int i = 0;
+  char a = ' ';
+  if (g_flag.zero == 1 && g_flag.type == '%' && g_flag.minus == 0)
+    a = '0';
+
   while (i < g_flag.width - byte && (g_flag.width - byte > 0))
   {
-    write(1, " ", 1);
+    write(1, &a, 1);
     g_flag.count++;
     i++;
   }
@@ -147,21 +153,6 @@ int print_c(va_list ap)
   return (0);
 }
 
-/*
-int print_s(va_list ap)
-{
-  char *s = va_arg(ap, char *);
-	write(1, s, ft_strlen(s));
-	g_flag.count += ft_strlen(s);
-  return (0);
-}
-//0은 안됨  %0s
-//width는 s길이보다 크면 패딩 넣어 출력
-//- 부호 유효
-//정밀도는 s길이보다 작으면 잘라서 출력(음수 경우 무시)
-//가변인자가 NULL일 경우 (null)을 출력,  6바이트 반환
-*/
-
 int print_s(va_list ap)
 {
 	char *str = va_arg(ap, char *);
@@ -172,8 +163,6 @@ int print_s(va_list ap)
 	len = (int)ft_strlen(str);
 	if (len > g_flag.precision && (0 <= g_flag.precision))
 		len = g_flag.precision;
- 	//char *a = ft_itoa(g_flag.precision);
- 	//write(1, a, ft_strlen(a));
 	if (g_flag.minus)
 	{
 		write(1, str, len);
@@ -185,6 +174,25 @@ int print_s(va_list ap)
 		padding(len);
 		write(1, str, len);
 		g_flag.count += len;
+	}
+	return (0);
+}
+
+int print_percent()
+{
+	char a = '%';
+  
+  if (g_flag.minus)
+	{
+		write(1, &a, 1);
+		g_flag.count += 1;
+		padding(1);
+	}
+	else
+	{
+		padding(1);
+		write(1, &a, 1);
+		g_flag.count += 1;
 	}
 	return (0);
 }

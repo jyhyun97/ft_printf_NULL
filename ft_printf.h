@@ -34,6 +34,7 @@ void print_all(va_list ap);
 int print_c(va_list ap);
 int print_s(va_list ap);
 int print_d(va_list ap);
+int print_percent();
 
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);

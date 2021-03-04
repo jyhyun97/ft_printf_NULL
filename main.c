@@ -18,6 +18,6 @@ int main(void)
 
 int main(void) 
 {
-ft_printf("|%16.s|", "abc");
+ft_printf("|%-05%|");
 return(0);
 }
