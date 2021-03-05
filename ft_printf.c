@@ -3,7 +3,7 @@
 void checker(va_list ap, char **format)
 {
     init_flag();
-    *format = check_flag(*format); 
+    *format = check_flag(*format);
     *format = check_width(*format, ap);
     *format = check_precision(*format, ap);
     check_type(*format);

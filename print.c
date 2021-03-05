@@ -4,10 +4,9 @@ void except(void)
 {
   if (g_flag.width < 0)
   {
-    g_flag.minus = 1; // 1 - 1 = 0
+    g_flag.minus = 1;
     g_flag.width *= -1;    
   }
-
 }
 
 void print_all(va_list ap)
@@ -20,14 +19,16 @@ void print_all(va_list ap)
   if (g_flag.type == 'd')
     print_d(ap);
   if (g_flag.type == '%')
-    print_percent(void);
+    print_percent();
 }
 
 void padding(int byte)
 {
   char a;
+  int i;
 
   a = ' ';
+  i = 0;
   if (g_flag.zero == 1 && g_flag.type == '%' && g_flag.minus == 0)
     a = '0';
   while (i < g_flag.width - byte && (g_flag.width - byte > 0))
@@ -84,18 +85,16 @@ void print_s(va_list ap)
 
 void print_percent(void)
 {
-	char a = '%';
-  
   if (g_flag.minus)
 	{
-		write(1, &a, 1);
+		write(1, "%", 1);
 		g_flag.count += 1;
 		padding(1);
 	}
 	else
 	{
 		padding(1);
-		write(1, &a, 1);
+		write(1, "%", 1);
 		g_flag.count += 1;
 	}
 }
