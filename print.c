@@ -113,14 +113,17 @@ void make_dtype(int a)
     write (1, "-", 1);
     g_flag.count++;
   }
-  g_flag.count += abs_len;
-  while (g_flag.precision - abs_len > i)
+  while (g_flag.precision - abs_len > i)//0플래그 있을 경우 출력될 0의 개수는? 
   {
     write (1, "0", 1);
     i++;
     g_flag.count++;
   }
-  write(1, abs, abs_len);
+  if(g_flag.precision > 0 || a != 0)
+    write(1, abs, abs_len);
+  else
+    abs_len = 0;
+  g_flag.count += abs_len;
   free(abs);
 }
 
@@ -143,6 +146,8 @@ int count_dtype(int a)
     abs_len++;
     cnt++;
   }
+  if(g_flag.precision <= 0 && a == 0)
+    cnt--;
   free(abs);
   return (cnt);
 }
