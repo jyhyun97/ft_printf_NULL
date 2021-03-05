@@ -31,9 +31,13 @@ void print_c(va_list ap);
 void print_s(va_list ap);
 void print_percent(void);
 void print_d(va_list ap);
+void make_dtype(int a);
+int count_dtype(int a);
+
 
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s1);
+int ft_abs(int a);
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 int	cnt_digit(int n);

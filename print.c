@@ -99,10 +99,78 @@ void print_percent(void)
 	}
 }
 
+void make_dtype(int a)
+{
+  char *abs;
+  int abs_len;
+  int i;
+
+  abs = ft_itoa(ft_abs(a));
+  abs_len = ft_strlen(abs);
+  i = 0;
+  if (a < 0)
+  {
+    write (1, "-", 1);
+    g_flag.count++;
+  }
+  g_flag.count += abs_len;
+  while (g_flag.precision - abs_len > i)
+  {
+    write (1, "0", 1);
+    i++;
+    g_flag.count++;
+  }
+  write(1, abs, abs_len);
+  free(abs);
+}
+
+int count_dtype(int a)
+{
+  char *abs;
+  int abs_len;
+  int cnt;
+
+  abs = ft_itoa(ft_abs(a));
+  abs_len = ft_strlen(abs);
+  cnt = 0;
+  if (a < 0)
+  {
+    cnt++;
+  }
+  cnt += abs_len;
+  while (g_flag.precision > abs_len)
+  {
+    abs_len++;
+    cnt++;
+  }
+  free(abs);
+  return (cnt);
+}
+
 void print_d(va_list ap)
 {
-  char *s = ft_itoa(va_arg(ap, int));
-	write(1, s, ft_strlen(s));
-    g_flag.count += ft_strlen(s);
-  free(s);
+  int a;
+  int len;
+  
+  a = va_arg(ap, int);
+  len = count_dtype(a);
+  if (g_flag.minus)
+	{
+	make_dtype(a);
+    padding(len);
+	}
+	else
+	{
+	padding(len);
+	make_dtype(a);
+  }
 }
+
+
+//
+//strjoin, strdup, itoa(절대값만 나오게 개조)
+//char *s = [-][정밀도][절대값] 새로운 문자열 만들기
+//[-] : va_arg가 음수면 -, 양수면 X
+//[정밀도] : precision이 절대값 len보다 크면 그 차이만큼 0으로 채우기
+//[절대값] : va_arg 절대값(양수) (0도 포함)
+//char *s만든 후, 나머지는 print_s 동작 그대로 카피(정밀도가 0인 경우라면 아예 출력이 안됨)
