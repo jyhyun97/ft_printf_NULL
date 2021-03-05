@@ -20,14 +20,16 @@ void print_all(va_list ap)
   if (g_flag.type == 'd')
     print_d(ap);
   if (g_flag.type == '%')
-    print_percent(void);
+    print_percent();
 }
 
 void padding(int byte)
 {
   char a;
+  int i;
 
   a = ' ';
+  i = 0;
   if (g_flag.zero == 1 && g_flag.type == '%' && g_flag.minus == 0)
     a = '0';
   while (i < g_flag.width - byte && (g_flag.width - byte > 0))
