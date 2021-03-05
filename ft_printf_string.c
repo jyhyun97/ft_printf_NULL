@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_string.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jawpark <jawpark@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/01 18:40:29 by jawpark           #+#    #+#             */
+/*   Updated: 2021/03/01 20:10:29 by jawpark          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 extern t_size	g_size;
@@ -41,7 +53,6 @@ void		pf_format_s(char *ptr)
 	ft_free_reset(tmp);
 }
 
-
 void		pf_format_c(int value)
 {
 	char	*tmp;
@@ -59,7 +70,7 @@ void		pf_format_c(int value)
 	ft_free_reset(tmp);
 }
 
-void		pf_format_pc(char c)
+void		pf_format_pc(void)
 {
 	char	*tmp;
 	int		len;

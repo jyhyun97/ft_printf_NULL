@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jawpark <jawpark@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/01 18:40:55 by jawpark           #+#    #+#             */
+/*   Updated: 2021/03/03 20:34:46 by jawpark          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 extern t_size g_size;
@@ -28,7 +40,8 @@ void		ft_putchr(char *c, int len)
 
 void		ft_free_reset(char *ptr)
 {
-	free(ptr);
+	if (ptr)
+		free(ptr);
 	ptr = 0;
 }
 
@@ -46,10 +59,10 @@ char		*ft_calloc(int len)
 		return (0);
 	while (--len > -1)
 	{
-		if (g_flag.zero == 1)
-			ptr[len]  = '0';
+		if (g_flag.zero == 1 && g_flag.minus != 1)
+			ptr[len] = '0';
 		else
-			ptr[len]  = ' ';
+			ptr[len] = ' ';
 	}
 	return (ptr);
 }

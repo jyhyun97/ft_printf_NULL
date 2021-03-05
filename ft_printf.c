@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jawpark <jawpark@student.42seoul.kr>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/01 18:35:05 by jawpark           #+#    #+#             */
+/*   Updated: 2021/03/04 17:34:04 by jawpark          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 t_size	g_size;
@@ -14,7 +26,8 @@ int			pf_flag_checker(va_list ap, const char *s)
 		result = flag_save(s[i]);
 	while (result == 0 && s[i])
 		result = wpl_check(s[i++], ap);
-	return	(--i);
+	flag_save_checker(0, s[i - 1]);
+	return (--i);
 }
 
 static int	pf_checker(va_list ap, const char *s)
@@ -22,7 +35,7 @@ static int	pf_checker(va_list ap, const char *s)
 	int		i;
 
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
 		if (s[i] == '%')
 		{
@@ -51,175 +64,4 @@ int			ft_printf(const char *s, ...)
 	rst = pf_checker(ap, s);
 	va_end(ap);
 	return (rst);
-}
-
-int			main(void)
-{
-	// char *l = "test";
-	// char c = 'A';
-	// char c1 = 'S';
-	// int	a = 16;
-	// int b = 15;
-	// int d = 9675;
-	// int e = -2214;
-
-	printf("strat ----------------------\n");
-	ft_printf("|%%|\n");
-	ft_printf("|%5%|\n");
-	ft_printf("|%-5%|\n");
-	ft_printf("|%-%|\n");
-	ft_printf("|%*%|\n", 5);
-	ft_printf("|%*%|\n", -5);
-	ft_printf("|%.5%|\n");
-	ft_printf("|%.*%|\n", -5);
-	ft_printf("|%.%|\n");
-	ft_printf("|%.0%|\n");
-	ft_printf("|%05%|\n");
-	ft_printf("|% %|\n");
-	ft_printf("|% 05%|\n");
-	ft_printf("|%-05%|\n");
-	ft_printf("|%#5%|\n");
-	ft_printf("|%+5%|\n");
-	printf("end ----------------------\n");
-	// printf("ft di ---------------------------------\n");
-	// ft_printf("%-+i ft\n", d);
-	// ft_printf("%-7d ft\n", e);
-	// ft_printf("%-*d ft\n", 7, d);
-	// ft_printf("%-7.9i ft\n", e);
-	// ft_printf("%-7.2i ft\n", d);
-	// ft_printf("%- 7d ft\n", e);
-	// ft_printf("%-+7i ft\n", d);
-	// printf("print ---------------------------------\n");
-	// printf("%-+i ft\n", d);
-	// printf("%-7d ft\n", e);
-	// printf("%-*d ft\n", 7, d);
-	// printf("%-7.9i ft\n", e);
-	// printf("%-7.2i ft\n", d);
-	// printf("% -7d ft\n", e);
-	// printf("%-+7i ft\n", d);
-	// printf("ft ---------------------------------\n");
-	// ft_printf("%07d ft\n", d);
-	// ft_printf("%0*d ft\n", 7, e);
-	// ft_printf("%0 7d ft\n", d);
-	// ft_printf("%0+7i ft\n", e);
-	// ft_printf("%0 d ft\n", d);
-	// ft_printf("%0+i ft\n", e);
-	// printf("print ---------------------------------\n");
-	// printf("%07d ft\n", d);
-	// printf("%0*d ft\n", 7, e);
-	// printf("%0 7d ft\n", d);
-	// printf("%0+7i ft\n", e);
-	// printf("%0 d ft\n", d);
-	// printf("%0+i ft\n", e);
-	// printf("ft ---------------------------------\n");
-	// ft_printf("%.7d ft\n", d);
-	// ft_printf("%.*i ft\n", 7, e);
-	// ft_printf("% .7d ft\n", d);
-	// ft_printf("%+.7i ft\n", e);
-	// printf("print ---------------------------------\n");
-	// printf("%.7d ft\n", d);
-	// printf("%.*i ft\n", 7, e);
-	// printf("% .7d ft\n", d);
-	// printf("%+.7i ft\n", e);
-	// printf("ft ---------------------------------\n");
-	// ft_printf("%+7d ft\n", d);
-	// ft_printf("%*i ft\n", 7, e);
-	// ft_printf("% 7d ft\n", d);
-	// ft_printf("%+7i ft\n", e);
-	// printf("print ---------------------------------\n");
-	// printf("%+7d ft\n", d);
-	// printf("%*i ft\n", 7, e);
-	// printf("% 7d ft\n", d);
-	// printf("%+7i ft\n", e);
-	// printf("end ---------------------------------\n");
-	// printf("\n");
-	// printf("\n");
-	// printf("ft u ----------------------------------\n");
-	// ft_printf("%-7u ft\n", e);
-	// ft_printf("%-7.2u ft\n", d);
-	// ft_printf("%-5.*u ft\n", 7, e);
-	// printf("print ---------------------------------\n");
-	// printf("%-7u ft\n", e);
-	// printf("%-7.2u ft\n", d);
-	// printf("%-5.*u ft\n", 7, e);
-	// printf("ft ----------------------------------\n");
-	// ft_printf("%07u ft\n", d);;
-	// printf("print ---------------------------------\n");
-	// printf("%07u ft\n", d);;
-	// printf("ft ----------------------------------\n");
-	// ft_printf("%.*u ft\n", 7, e);
-	// ft_printf("%*u ft\n", 7, d);
-	// printf("print ---------------------------------\n");
-	// printf("%.*u ft\n", 7, e);
-	// printf("%*u ft\n", 7, d);
-	// printf("end -----------------------------------\n");
-	// printf("\n");
-	// printf("\n");
-	// printf("ft xX----------------------------------\n");
-	// ft_printf("%-x ft\n", e);
-	// ft_printf("%-#x ft\n", e);
-	// ft_printf("%-*x ft\n", 10, e);
-	// ft_printf("%-.9x ft\n", e);
-	// ft_printf("%-*.*x ft\n", 10, 7, e);
-	// printf("print ----------------------------------\n");
-	// printf("%-x ft\n", e);
-	// printf("%-#x ft\n", e);
-	// printf("%-*x ft\n", 10, e);
-	// printf("%-.9x ft\n", e);
-	// printf("%-*.*x ft\n", 10, 7, e);
-	// printf("ft -----------------------------------\n");
-	// ft_printf("%010X ft\n", e);
-	// ft_printf("%0#7X ft\n", e);
-	// ft_printf("%0*X ft\n", 11, e);
-	// ft_printf("%02X ft\n", e);
-	// printf("print ----------------------------------\n");
-	// printf("%010X ft\n", e);
-	// printf("%0#7X ft\n", e);
-	// printf("%0*X ft\n", 11, e);
-	// printf("%02X ft\n", e);
-	// printf("ft -----------------------------------\n");
-	// ft_printf("%10.2x ft\n", e);
-	// ft_printf("%#10.2x ft\n", e);
-	// ft_printf("%10.*x ft\n", 11, e);
-	// printf("print ----------------------------------\n");
-	// printf("%10.2x ft\n", e);
-	// printf("%#10.2x ft\n", e);
-	// printf("%10.*x ft\n", 11, e);
-	// printf("end -----------------------------------\n");
-	// printf("\n");
-	// printf("\n");
-	// printf("P -----------------------------------\n");
-	// ft_printf("%-20p ft\n", &a);
-	// ft_printf("%20p %5p ft\n", &a, &b);
-	// ft_printf("%*p ft\n", 20, &a);
-	// printf("-----------------------------------\n");
-	// printf("%-20p ft\n", &a);
-	// printf("%20p %5p ft\n", &a, &b);
-	// printf("%*p ft\n", 20, &a);
-	// printf("end ---------------------------------\n");
-	// printf("\n");
-	// printf("\n");
-	// printf("c ----------------------------------\n");
-	// ft_printf("%-9c ft\n", c);
-	// ft_printf("%6c %5c ft\n", c, c1);
-	// ft_printf("%*c ft\n", 10, c);
-	// printf("-----------------------------------\n");
-	// printf("%-9c ft\n", c);
-	// printf("%6c %5c ft\n", c, c1);
-	// printf("%*c ft\n", 10, c);
-	// printf("end -----------------------------------\n");
-	// printf("\n");
-	// printf("\n");
-	// printf("s ----------------------------------\n");
-	// ft_printf("%-9s ft\n", l);
-	// ft_printf("%6s %5s ft\n", l, l);
-	// ft_printf("%7.3s ft\n", l);
-	// ft_printf("%.*s ft\n", 0, l);
-	// printf("-----------------------------------\n");
-	// printf("%-9s ft\n", l);
-	// printf("%6s %5s ft\n", l, l);
-	// printf("%7.3s ft\n", l);
-	// printf("%.*s ft\n", 0, l);
-	// printf("end ----------------------------------\n");
-	return (0);
 }
