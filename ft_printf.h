@@ -6,7 +6,7 @@
 /*   By: jso <jso@student.42seoul.kr>               +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/02 16:36:04 by jso               #+#    #+#             */
-/*   Updated: 2021/03/05 12:25:12 by jso              ###   ########.fr       */
+/*   Updated: 2021/03/05 12:44:18 by jso              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,12 @@ t_flag			g_flag;
 
 size_t			ft_strlen(const char *str);
 char			*ft_strdup(const char *str);
+
+/*
+**	Func in the ft_printf.c file.
+*/
+
+int ft_printf(const char *format, ...);
+void checker(va_list ap, const char **fmt);
 
 #endif
