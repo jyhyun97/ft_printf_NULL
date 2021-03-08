@@ -125,7 +125,7 @@ void make_dtype(int a)
   if (a < 0)
     z -= 1;
   
-  while (g_flag.zero == 1 && g_flag.precision < 0 && i < z)
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i < z)
   {
     write(1, "0", 1);
     i++;
@@ -163,7 +163,7 @@ int count_dtype(int a)
   int z = g_flag.width - abs_len;
   if (a < 0)
     z -= 1;
-  while (g_flag.zero == 1 && g_flag.precision < 0 && i < z)
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i < z)
   {
     i++;
     cnt++;
