@@ -2,9 +2,14 @@
 
 int main(void)
 {
-  ft_printf("|%0010.0d|\n", 123);
-  ft_printf("|%0010.d|\n", 123);
-  ft_printf("|%0010.*d|\n", -1, 123);  
+
+  ft_printf("|%5.d|\n", 0);
+  ft_printf("|%5.0d|\n", 0);
+  ft_printf("|%5.0d|\n", 1);
+  printf("\n"); 
+  printf("|%5.d|\n", 0);
+  printf("|%5.0d|\n", 0);
+  printf("|%5.0d|\n", 1);
   return(0);
 }
 

@@ -114,10 +114,9 @@ void make_dtype(int a)
     g_flag.count++;
   }
   //011.10d 
-  while (g_flag.precision - abs_len > i)
+  while (g_flag.precision - abs_len > ++i)
   {
     write (1, "0", 1);
-    i++;
     g_flag.count++;
   }
   i = 0;
@@ -125,16 +124,15 @@ void make_dtype(int a)
   if (a < 0)
     z -= 1;
   
-  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i < z)
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && ++i < z)
   {
     write(1, "0", 1);
-    i++;
     g_flag.count++;
   }
 
-  if(g_flag.precision == 0 || a != 0)
+  if(g_flag.precision != 0 || a != 0)//숫자가 출력 되어야 할 경우
     write(1, abs, abs_len);
-  else
+  else//숫자가 출력되지 않아야 할 경우(.0d && d == 0 || .d && d == 0)
     abs_len = 0;
   g_flag.count += abs_len;
   free(abs);
@@ -168,7 +166,7 @@ int count_dtype(int a)
     i++;
     cnt++;
   }
-  if(g_flag.precision == 0 && a == 0)
+  if(g_flag.precision == 0 && a == 0)// 
     cnt--;
   free(abs);
   return (cnt);
@@ -201,3 +199,7 @@ void print_d(va_list ap)
 //[정밀도] : precision이 절대값 len보다 크면 그 차이만큼 0으로 채우기
 //[절대값] : va_arg 절대값(양수) (0도 포함)
 //char *s만든 후, 나머지는 print_s 동작 그대로 카피(정밀도가 0인 경우라면 아예 출력이 안됨)
+
+
+
+// https://github.com/charMstr/printf_lover_v2
