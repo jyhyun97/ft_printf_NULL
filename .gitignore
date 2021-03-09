@@ -3,3 +3,5 @@ idea.md
 test.c
 .vscode
 *.swp
+*.a
+*.o

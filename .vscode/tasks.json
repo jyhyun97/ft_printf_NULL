@@ -3,14 +3,15 @@
         {
             "type": "cppbuild",
             "label": "C/C++: gcc 활성 파일 빌드",
-            "command": "/usr/bin/gcc",
+            "command": "/usr/bin/clang",
             "args": [
                 "-g",
-                "ft_printf_main.c",
-                "ft_utils.c",
-                "ft_itoa.c",
+                "main.c",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-I.",
+                "-L.",
+                "-lftprintf"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
