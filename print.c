@@ -114,7 +114,7 @@ void make_dtype(int a)
     g_flag.count++;
   }
   //011.10d 
-  while (g_flag.precision - abs_len > ++i)
+  while (g_flag.precision - abs_len > i++)//4 - 3 
   {
     write (1, "0", 1);
     g_flag.count++;
@@ -124,7 +124,7 @@ void make_dtype(int a)
   if (a < 0)
     z -= 1;
   
-  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && ++i < z)
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i++ < z)
   {
     write(1, "0", 1);
     g_flag.count++;
