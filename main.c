@@ -1,7 +1,9 @@
 #include "ft_printf.h"
+#include <assert.h>
 
 int main(void)
 {
-	printf("%d",ft_printf("%-10c\n",'a') - 1);
-	return (0);
+
+ft_printf("%-10s","abcd");
+return 0;
 }

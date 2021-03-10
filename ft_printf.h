@@ -23,6 +23,7 @@ typedef struct _flag {
     int width;
     int precision;
     int value;
+    char *pvalue;
 } Flag;
 
 void	*ft_memset(void *b, int c, size_t len);
@@ -35,9 +36,9 @@ size_t	ft_strlen(const char *src);
 
 void    init_flag(Flag *flag);
 int set_flag(char **res, char a, int if_con);
-int    set_prev_dot_v(Flag *flag, char **res);
-int    set_after_dot_v(Flag *flag, char **res, char type);
-int    set_no_dot_v(Flag *flag, char **res, char type);
+int    set_prev_dot_v(Flag *flag, char **res, va_list ap);
+int    set_after_dot_v(Flag *flag, char **res, char type, va_list ap);
+int    set_no_dot_v(Flag *flag, char **res, char type, va_list ap);
 Flag    set_opt(va_list ap, char **res, char type);
 void    set_d(va_list ap, char **res, int *count);
 void print_c(va_list ap, char **res);

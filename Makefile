@@ -1,4 +1,4 @@
-CC      = cc
+CC      = cc -g
 LIB		= ar rcs
 CFLAGS  = -Wall -Wextra -Werror
 RM      = rm -f
