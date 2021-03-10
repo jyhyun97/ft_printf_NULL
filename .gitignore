@@ -6,5 +6,5 @@ test.c
 *.a
 *.o
 *.dSYM
-printf_main
+ft_printf_main
 main
