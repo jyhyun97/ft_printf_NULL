@@ -109,3 +109,32 @@ char *ft_itoa_u(unsigned int n)
   }
   return (rst);
 }
+
+char *ft_itoa_16(unsigned int n, char *base)//base = "0123456789abcdef"
+{
+    char *rst;
+    unsigned int digit;
+    unsigned int a;
+    
+    a = n;
+    digit = 0;
+    if (a == 0)
+        digit++;
+    while (a > 0)
+    {
+        a /= 16;
+        digit++;
+    }
+    rst = (char *)malloc(digit + 1);
+    if (rst == 0)
+        return (0);
+    a = n;
+    rst[digit] = '\0';
+    while (digit > 0)
+    {
+        digit--;
+        rst[digit] = base[a % 16];
+        a /= 16;
+    }
+    return (rst);
+}

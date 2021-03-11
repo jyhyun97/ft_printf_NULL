@@ -2,8 +2,8 @@
 
 int main(void)
 {
-  ft_printf("|%-11u|\n", 0);
-  printf("|%-11u|", 0);
+  ft_printf("|%x|\n", 765432);
+  printf("|%x|\n", 765432);
   return(0);
 }
 

@@ -20,6 +20,8 @@ void print_all(va_list ap)
     print_d(ap);
   if (g_flag.type == 'u')
     print_u(ap);
+  if (g_flag.type == 'x' || g_flag.type == 'X')
+    print_x(ap);
   if (g_flag.type == '%')
     print_percent();
 }
@@ -264,5 +266,86 @@ void print_u(va_list ap)
     make_utype(a);    
   }
 }
-//[precision 0패딩][rst]
-//단순히 d플래그에서 음수 부분만 없앴다고 생각해도 될까?
+
+
+
+int count_xtype(unsigned int a, char *base)
+{
+  char *rst;
+  int len;
+  int cnt;
+
+  rst = ft_itoa_16(a, base);
+  len = ft_strlen(rst);
+  cnt = 0;
+  cnt += len;
+  while (g_flag.precision > len)//9 > 6
+  {
+    len++;//9
+    cnt++;//9
+  }
+  int i = 0; //-7.9d -12345
+  int z = g_flag.width - len;//5
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i < z)//08d 123
+  {
+    i++;
+    cnt++; //00000123
+  }
+  if(g_flag.precision == 0 && a == 0)
+    cnt--;
+  free(rst);
+  return (cnt);
+}
+
+void make_xtype(unsigned int a, char *base)
+{
+  char *rst;
+  int len;
+  int i = 0;
+
+  rst = ft_itoa_16(a, base);
+  len = ft_strlen(rst);
+  
+  while (g_flag.precision - len > i++)
+  {
+    write (1, "0", 1);
+    g_flag.count++;
+  }
+  i = 0;
+  int z = g_flag.width - len;
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i++ < z)
+  {
+    write(1, "0", 1);
+    g_flag.count++;
+  }
+  if(g_flag.precision != 0 || a != 0)
+    write(1, rst, len);
+  else
+    len = 0;
+  g_flag.count += len;//-000012345
+  free(rst);
+}
+
+void print_x(va_list ap)
+{
+  unsigned int a;
+  char *base;
+  
+  a = va_arg(ap, unsigned int);
+  if (g_flag.type == 'x')
+    base = "0123456789abcdef";
+  else
+    base = "0123456789ABCDEF";
+  int len = count_xtype(a, base);
+  
+  if (g_flag.minus)
+  {
+    make_xtype(a, base);
+    padding(len);
+  }
+  else
+  {
+    padding(len);
+    make_xtype(a, base);    
+  }
+}
