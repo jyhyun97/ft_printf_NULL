@@ -378,6 +378,7 @@ void make_ptype(long long a, char *base)
   len = ft_strlen(rst);
   
   write(1, "0x", 2);
+  g_flag.count += 2;
   if(g_flag.precision != 0 || a != 0)
     write(1, rst, len);
   else
