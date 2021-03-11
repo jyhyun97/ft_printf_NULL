@@ -22,6 +22,8 @@ void print_all(va_list ap)
     print_u(ap);
   if (g_flag.type == 'x' || g_flag.type == 'X')
     print_x(ap);
+  if (g_flag.type == 'p')
+    print_p(ap);
   if (g_flag.type == '%')
     print_percent();
 }
@@ -332,10 +334,10 @@ void print_x(va_list ap)
   char *base;
   
   a = va_arg(ap, unsigned int);
-  if (g_flag.type == 'x')
-    base = "0123456789abcdef";
-  else
+  if (g_flag.type == 'X')
     base = "0123456789ABCDEF";
+  else
+    base = "0123456789abcdef";
   int len = count_xtype(a, base);
   
   if (g_flag.minus)
@@ -349,3 +351,62 @@ void print_x(va_list ap)
     make_xtype(a, base);    
   }
 }
+
+
+int count_ptype(long long int a, char *base)
+{
+  char *rst;
+  int len;
+  int cnt;
+
+  rst = ft_itoa_x(a, base);
+  len = ft_strlen(rst);
+  cnt = 2;
+  cnt += len;
+  if(g_flag.precision == 0 && a == 0)
+    cnt--;
+  free(rst);
+  return (cnt);
+}
+
+void make_ptype(long long int a, char *base)
+{
+  char *rst;
+  int len;
+
+  rst = ft_itoa_x(a, base);
+  len = ft_strlen(rst);
+  
+  write(1, "0x", 2);
+  if(g_flag.precision != 0 || a != 0)
+    write(1, rst, len);
+  else
+    len = 0;
+  g_flag.count += len;//-000012345
+  free(rst);
+}
+
+
+void print_p(va_list ap)
+{
+  long long int a;
+  char *base;
+  
+  a = (long long int)va_arg(ap, void *);
+  base = "0123456789abcdef";
+  int len = count_ptype(a, base);
+  
+  if (g_flag.minus)
+  {
+    make_ptype(a, base);
+    padding(len);
+  }
+  else
+  {
+    padding(len);
+    make_ptype(a, base);    
+  }
+}
+
+//p 주소 12자리, void *으로 받기 
+

@@ -2,8 +2,9 @@
 
 int main(void)
 {
-  ft_printf("|%x|\n", 765432);
-  printf("|%x|\n", 765432);
+  int a = 1;
+  printf("%u %p\n", &a, &a);
+  ft_printf("%u %p\n", &a, &a);
   return(0);
 }
 
