@@ -3,8 +3,10 @@
 int main(void)
 {
   int a;
-  printf("%u %p\n", a, a);
-  ft_printf("%u %p\n", a, a);
+  printf("%d\n", 9);
+  ft_printf("%d\n", 0);
+  system("leaks a.out > leaks_result_temp; cat leaks_result_temp | grep leaked && rm -rf leaks_result_temp");
+  
   return(0);
 }
 

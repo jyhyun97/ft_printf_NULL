@@ -49,12 +49,11 @@ char	*ft_strdup(const char *s1);
 int ft_abs(int a);
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-int	cnt_digit(int n);
-char	*fill_rst(char *rst, int n);
 char		*ft_itoa(int n);
 char *ft_itoa_u(unsigned int n);
 char *ft_itoa_16(unsigned int n, char *base);
 char *ft_itoa_x(long long n, char *base);
+
 int ft_printf(const char *format, ...);
 
 
