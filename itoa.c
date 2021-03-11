@@ -80,3 +80,30 @@ char		*ft_itoa(int n)
 		fill_rst(rst, n);
 	return (rst);
 }
+
+char *ft_itoa_u(unsigned int n)
+{
+  char *rst;
+  unsigned int digit;
+  unsigned int a;
+
+  a = n;
+  digit = 0;
+  while (a > 0)
+  {
+    a /= 10;
+    digit++;
+  }
+  rst = (char *)malloc(digit + 1);
+  if (rst == 0)
+    return (0);
+  a = n;
+  rst[digit] = '\0';
+  while (digit > 0)
+  {
+    digit--;
+    rst[digit] = (a % 10) + '0';
+    a /= 10;
+  }
+  return (rst);
+}

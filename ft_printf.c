@@ -32,7 +32,7 @@ int ft_printf(const char *format, ...)
 {
 	char *a;
 
-  a = ft_strdup(format); 
+  a = ft_strdup(format);
 	g_flag.count = 0;
 	va_list ap;
 	va_start(ap, format);

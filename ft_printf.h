@@ -33,6 +33,9 @@ void print_percent(void);
 void print_d(va_list ap);
 void make_dtype(int a);
 int count_dtype(int a);
+void print_u(va_list ap);
+int count_utype(unsigned int a);
+void make_utype(unsigned int a);
 
 
 size_t	ft_strlen(const char *s);
@@ -43,6 +46,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 int	cnt_digit(int n);
 char	*fill_rst(char *rst, int n);
 char		*ft_itoa(int n);
+char *ft_itoa_u(unsigned int n);
 
 int ft_printf(const char *format, ...);
 

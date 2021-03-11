@@ -2,9 +2,8 @@
 
 int main(void)
 {
-  ft_printf("|%.4d|", 198);
-  printf("\n"); 
-  printf("|%.4d|", 198);
+  ft_printf("|%-11u|\n", -12345);
+  printf("|%-11u|", -12345);
   return(0);
 }
 

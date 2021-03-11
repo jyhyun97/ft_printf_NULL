@@ -16,8 +16,10 @@ void print_all(va_list ap)
     print_c(ap);
   if (g_flag.type == 's')
     print_s(ap);
-  if (g_flag.type == 'd')
+  if (g_flag.type == 'd' || g_flag.type == 'i')
     print_d(ap);
+  if (g_flag.type == 'u')
+    print_u(ap);
   if (g_flag.type == '%')
     print_percent();
 }
@@ -113,8 +115,8 @@ void make_dtype(int a)
     write (1, "-", 1);
     g_flag.count++;
   }
-  //011.10d 
-  while (g_flag.precision - abs_len > i++)//4 - 3 
+  
+  while (g_flag.precision - abs_len > i++)
   {
     write (1, "0", 1);
     g_flag.count++;
@@ -131,10 +133,10 @@ void make_dtype(int a)
   }
 
   if(g_flag.precision != 0 || a != 0)//숫자가 출력 되어야 할 경우
-    write(1, abs, abs_len);
+    write(1, abs, abs_len);//12345
   else//숫자가 출력되지 않아야 할 경우(.0d && d == 0 || .d && d == 0)
     abs_len = 0;
-  g_flag.count += abs_len;
+  g_flag.count += abs_len;//-000012345
   free(abs);
 }
 
@@ -144,29 +146,27 @@ int count_dtype(int a)
   int abs_len;
   int cnt;
 
-  abs = ft_itoa(ft_abs(a));
-  abs_len = ft_strlen(abs);
+  abs = ft_itoa(ft_abs(a));//12345
+  abs_len = ft_strlen(abs);//5
   cnt = 0;
   if (a < 0)
+    cnt++;//1
+  cnt += abs_len;//6
+  while (g_flag.precision > abs_len)//9 > 6
   {
-    cnt++;
+    abs_len++;//9
+    cnt++;//9
   }
-  cnt += abs_len;
-  while (g_flag.precision > abs_len)
-  {
-    abs_len++;
-    cnt++;
-  }
-  int i = 0;
-  int z = g_flag.width - abs_len;
-  if (a < 0)
-    z -= 1;
-  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i < z)
+  int i = 0; //-7.9d -12345
+  int z = g_flag.width - abs_len;//5
+  if (a < 0)//
+    z -= 1;//-3
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i < z)//08d 123
   {
     i++;
-    cnt++;
+    cnt++; //00000123
   }
-  if(g_flag.precision == 0 && a == 0)// 
+  if(g_flag.precision == 0 && a == 0)
     cnt--;
   free(abs);
   return (cnt);
@@ -182,7 +182,7 @@ void print_d(va_list ap)
   if (g_flag.minus)
 	{
 	  make_dtype(a);
-    padding(len);
+    padding(len);//
 	}
 	else
 	{
@@ -191,15 +191,78 @@ void print_d(va_list ap)
   }
 }
 
+int count_utype(unsigned int a)
+{
+  char *rst;
+  int len;
+  int cnt;
 
-//
-//strjoin, strdup, itoa(절대값만 나오게 개조)
-//char *s = [-][정밀도][절대값] 새로운 문자열 만들기
-//[-] : va_arg가 음수면 -, 양수면 X
-//[정밀도] : precision이 절대값 len보다 크면 그 차이만큼 0으로 채우기
-//[절대값] : va_arg 절대값(양수) (0도 포함)
-//char *s만든 후, 나머지는 print_s 동작 그대로 카피(정밀도가 0인 경우라면 아예 출력이 안됨)
+  rst = ft_itoa_u(a);
+  len = ft_strlen(rst);
+  cnt = 0;
+  cnt += len;
+  while (g_flag.precision > len)//9 > 6
+  {
+    len++;//9
+    cnt++;//9
+  }
+  int i = 0; //-7.9d -12345
+  int z = g_flag.width - len;//5
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i < z)//08d 123
+  {
+    i++;
+    cnt++; //00000123
+  }
+  if(g_flag.precision == 0 && a == 0)
+    cnt--;
+  free(rst);
+  return (cnt);
+}
+void make_utype(unsigned int a)
+{
+  char *rst;
+  int len;
+  int i = 0;
 
+  rst = ft_itoa_u(a);
+  len = ft_strlen(rst);
+  
+  while (g_flag.precision - len > i++)
+  {
+    write (1, "0", 1);
+    g_flag.count++;
+  }
+  i = 0;
+  int z = g_flag.width - len;
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i++ < z)
+  {
+    write(1, "0", 1);
+    g_flag.count++;
+  }
+  if(g_flag.precision != 0 || a != 0)
+    write(1, rst, len);
+  else
+    len = 0;
+  g_flag.count += len;//-000012345
+  free(rst);
+}
 
-
-// https://github.com/charMstr/printf_lover_v2
+void print_u(va_list ap)
+{
+  unsigned int a;
+  
+  a = va_arg(ap, unsigned int);
+  int len = count_utype(a);
+  if (g_flag.minus)
+  {
+    make_utype(a);
+    padding(len);
+  }
+  else
+  {
+    padding(len);
+    make_utype(a);    
+  }
+}
+//[precision 0패딩][rst]
+//단순히 d플래그에서 음수 부분만 없앴다고 생각해도 될까?
