@@ -139,7 +139,7 @@ char *ft_itoa_16(unsigned int n, char *base)//base = "0123456789abcdef"
     return (rst);
 }
 
-char *ft_itoa_x(long long int n, char *base)//base = "0123456789abcdef"
+char *ft_itoa_x(long long n, char *base)//base = "0123456789abcdef"
 {
     char *rst;
     unsigned int digit;

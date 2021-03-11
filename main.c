@@ -2,9 +2,9 @@
 
 int main(void)
 {
-  int a = 1;
-  printf("%u %p\n", &a, &a);
-  ft_printf("%u %p\n", &a, &a);
+  int a;
+  printf("%u %p\n", a, a);
+  ft_printf("%u %p\n", a, a);
   return(0);
 }
 

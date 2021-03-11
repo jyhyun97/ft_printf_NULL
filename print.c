@@ -353,7 +353,7 @@ void print_x(va_list ap)
 }
 
 
-int count_ptype(long long int a, char *base)
+int count_ptype(long long a, char *base)
 {
   char *rst;
   int len;
@@ -369,7 +369,7 @@ int count_ptype(long long int a, char *base)
   return (cnt);
 }
 
-void make_ptype(long long int a, char *base)
+void make_ptype(long long a, char *base)
 {
   char *rst;
   int len;
@@ -389,10 +389,10 @@ void make_ptype(long long int a, char *base)
 
 void print_p(va_list ap)
 {
-  long long int a;
+  long long a;
   char *base;
   
-  a = (long long int)va_arg(ap, void *);
+  a = (long long)va_arg(ap, void *);
   base = "0123456789abcdef";
   int len = count_ptype(a, base);
   
