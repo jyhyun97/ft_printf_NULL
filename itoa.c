@@ -89,6 +89,8 @@ char *ft_itoa_u(unsigned int n)
 
   a = n;
   digit = 0;
+  if (a == 0)
+    digit++;
   while (a > 0)
   {
     a /= 10;
