@@ -7,7 +7,6 @@ void    init_flag(Flag *flag)
     flag->space = 0;
     flag->zero = 0;
     flag->dot = 0;
-    flag->aster = 0;
     flag->width = 0;
     flag->precision = 0;
     flag->value = 0;
@@ -65,14 +64,13 @@ int    set_prev_dot_v(Flag *flag, char **res, va_list ap)
     return (ft_atoi(arr));
 }
 
-int    set_after_dot_v(Flag *flag, char **res, char type, va_list ap)
+int    set_after_dot_v(char **res, char type, va_list ap)
 {
     char    *tmp;
     char    arr[20];
     int     value;
     int     count;
 
-    flag->aster = flag->aster;//컴파일에러방지..
     value = 0;
     count = 0;
     ft_memset(arr, 0, 20);
@@ -80,16 +78,13 @@ int    set_after_dot_v(Flag *flag, char **res, char type, va_list ap)
     if (*tmp == '*')
     {
         count = va_arg(ap, int);
-        if (count > -1)
-            return (count);
-        flag->minus = 1;
-        return (-count);
+        return (count);
     }
     while (*tmp++ != type)
         value++;
     if (!value)
         return (0);
-    ft_memcpy(arr, tmp, value);
+    ft_memcpy(arr, ft_strchr(*res, '.') + 1, value);
     return (ft_atoi(arr));
 }
 
@@ -136,7 +131,7 @@ Flag    set_opt(va_list ap, char **res, char type)
     if (flag.dot)
     {
         flag.width = set_prev_dot_v(&flag, res, ap);
-        flag.precision = set_after_dot_v(&flag, res, type, ap);
+        flag.precision = set_after_dot_v(res, type, ap);
     }
     else
         flag.width = set_no_dot_v(&flag, res, type, ap);
@@ -153,6 +148,7 @@ void    set_d(va_list ap, char **res, int *count)
 {
     Flag    flag;
 
+    init_flag(&flag);
     flag = set_opt(ap, res, 'd');
     free(*res); //여기서 flag처리해주는 함수.. 구현해야함..실질적으로 각각 파싱기능으로 들어가는 함수 구현하는부분 시작
     *res = ft_itoa(va_arg(ap, int));
@@ -196,10 +192,15 @@ void print_s(va_list ap, char **res)
     size_t  len;
     int     real_len;
 
-    flag = set_opt(ap, res, 's');
+    flag = set_opt(ap, &(*res), 's');
     free(*res);
+    *res = 0;
     pvalue = flag.pvalue;
+    if (!pvalue)
+        pvalue = "(null)";
     len = ft_strlen(pvalue);
+    if (flag.dot && flag.precision >= 0 && ((int)len >= flag.precision))
+        len = flag.precision;
     real_len = flag.width - (int)len;
     if (flag.minus)
     {
