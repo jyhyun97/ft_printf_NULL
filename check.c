@@ -8,6 +8,7 @@ void init_flag(void)
   g_flag.width = 0;
   g_flag.type = 0;
 }
+
 char *check_flag(char *a)
 {
   while (*a == '-' || *a == '0')

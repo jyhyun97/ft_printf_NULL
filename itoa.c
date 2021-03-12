@@ -1,24 +1,22 @@
 #include "ft_printf.h"
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+/*
+char *fill_itoa(int n, int digit, char *rst)
 {
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	if (dst == 0 || src == 0)
-		return (0);
-	while (src[i] != '\0')
-		i++;
-	while (src[j] != '\0' && j < dstsize - 1 && dstsize != 0)
+  if (n == -2147483648)
+		ft_strlcpy(rst, "2147483648", 11);
+	else
 	{
-		dst[j] = src[j];
-		j++;
-	}
-	if (dstsize > 0)
-		dst[j] = '\0';
-	return (i);
+    if (n < 0)
+      n *= -1;
+  	rst[digit] = '\0';
+    while (digit > 0)
+    {
+      digit--;
+      rst[digit] = (n % 10) + '0';
+      n /= 10;
+    }
+  }
+  return (rst);
 }
 
 char		*ft_itoa(int n)
@@ -39,20 +37,7 @@ char		*ft_itoa(int n)
 	rst = (char *)malloc(sizeof(char) * digit + 1);
 	if (rst == 0)
 		return (0);
-	if (n == -2147483648)
-		ft_strlcpy(rst, "2147483648", 11);
-	else
-	{
-    if (n < 0)
-      n *= -1;
-  	rst[digit] = '\0';
-    while (digit > 0)
-    {
-      digit--;
-      rst[digit] = (n % 10) + '0';
-      n /= 10;
-    }
-  }
+	rst = fill_itoa(n, digit, rst);
 	return (rst);
 }
 
@@ -84,8 +69,8 @@ char *ft_itoa_u(unsigned int n)
   }
   return (rst);
 }
-
-char *ft_itoa_16(unsigned int n, char *base)//base = "0123456789abcdef"
+*/
+char *ft_itoa_base(unsigned int n, int base_num, char *base)//base = "0123456789abcdef"
 {
     char *rst;
     unsigned int digit;
@@ -97,7 +82,7 @@ char *ft_itoa_16(unsigned int n, char *base)//base = "0123456789abcdef"
         digit++;
     while (a > 0)
     {
-        a /= 16;
+        a /= base_num;
         digit++;
     }
     rst = (char *)malloc(digit + 1);
@@ -108,13 +93,13 @@ char *ft_itoa_16(unsigned int n, char *base)//base = "0123456789abcdef"
     while (digit > 0)
     {
         digit--;
-        rst[digit] = base[a % 16];
-        a /= 16;
+        rst[digit] = base[a % base_num];
+        a /= base_num;
     }
     return (rst);
 }
 
-char *ft_itoa_x(long long n, char *base)//base = "0123456789abcdef"
+char *ft_itoa_long(long long n, char *base)
 {
     char *rst;
     unsigned int digit;

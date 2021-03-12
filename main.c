@@ -1,11 +1,11 @@
+#include <stdio.h>
 #include "ft_printf.h"
 
 int main(void)
 {
-  int a;
-  printf("%d\n", 9);
-  ft_printf("%d\n", 0);
-  system("leaks a.out > leaks_result_temp; cat leaks_result_temp | grep leaked && rm -rf leaks_result_temp");
+  int a = -2147483648;
+  printf("%d %u %x %p\n", a, a, a, &a);
+  ft_printf("%d %u %x %p\n", a, a, a, &a);
   
   return(0);
 }

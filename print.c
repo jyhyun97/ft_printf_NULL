@@ -1,17 +1,12 @@
 #include "ft_printf.h"
 
-void except(void)
+void print_all(va_list ap)
 {
   if (g_flag.width < 0)
   {
     g_flag.minus = 1;
     g_flag.width *= -1;    
   }
-}
-
-void print_all(va_list ap)
-{
-  except();
   if (g_flag.type == 'c')
     print_c(ap);
   if (g_flag.type == 's')
@@ -110,8 +105,9 @@ void make_dtype(int a)
   char *abs;
   int abs_len;
   int i;
+  int z;
 
-  abs = ft_itoa(ft_abs(a));
+  abs = ft_itoa_base((unsigned int)ft_abs(a), 10, "0123456789");
   abs_len = ft_strlen(abs);
   i = 0;
   if (a < 0)
@@ -119,28 +115,25 @@ void make_dtype(int a)
     write (1, "-", 1);
     g_flag.count++;
   }
-  
   while (g_flag.precision - abs_len > i++)
   {
     write (1, "0", 1);
     g_flag.count++;
   }
   i = 0;
-  int z = g_flag.width - abs_len;
+  z = g_flag.width - abs_len;
   if (a < 0)
     z -= 1;
-  
   while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i++ < z)
   {
     write(1, "0", 1);
     g_flag.count++;
   }
-
-  if(g_flag.precision != 0 || a != 0)//숫자가 출력 되어야 할 경우
-    write(1, abs, abs_len);//12345
-  else//숫자가 출력되지 않아야 할 경우(.0d && d == 0 || .d && d == 0)
+  if(g_flag.precision != 0 || a != 0)
+    write(1, abs, abs_len);
+  else
     abs_len = 0;
-  g_flag.count += abs_len;//-000012345
+  g_flag.count += abs_len;
   free(abs);
 }
 
@@ -149,27 +142,22 @@ int count_dtype(int a)
   char *abs;
   int abs_len;
   int cnt;
+  int i;
+  int z;
 
-  abs = ft_itoa(ft_abs(a));//12345
-  abs_len = ft_strlen(abs);//5
-  cnt = 0;
+  abs = ft_itoa_base((unsigned int)ft_abs(a), 10, "0123456789");
+  abs_len = ft_strlen(abs);
+  cnt = abs_len;
   if (a < 0)
-    cnt++;//1
-  cnt += abs_len;//6
-  while (g_flag.precision > abs_len)//9 > 6
-  {
-    abs_len++;//9
-    cnt++;//9
-  }
-  int i = 0; //-7.9d -12345
-  int z = g_flag.width - abs_len;//5
-  if (a < 0)//
-    z -= 1;//-3
-  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i < z)//08d 123
-  {
-    i++;
-    cnt++; //00000123
-  }
+    cnt++;
+  while (g_flag.precision > abs_len++)
+    cnt++;
+  i = 0;
+  z = g_flag.width - abs_len;
+  if (a < 0)
+    z -= 1;
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i++ < z)
+    cnt++;
   if(g_flag.precision == 0 && a == 0)
     cnt--;
   free(abs);
@@ -186,7 +174,7 @@ void print_d(va_list ap)
   if (g_flag.minus)
 	{
 	  make_dtype(a);
-    padding(len);//
+    padding(len);
 	}
 	else
 	{
@@ -194,50 +182,48 @@ void print_d(va_list ap)
 	make_dtype(a);
   }
 }
-
-int count_utype(unsigned int a)
+/*
+int count_utype(unsigned int a, char *base)
 {
   char *rst;
   int len;
   int cnt;
+  int i;
+  int z;
 
-  rst = ft_itoa_u(a);
+  rst = ft_itoa_base(a, 10, base);
   len = ft_strlen(rst);
-  cnt = 0;
-  cnt += len;
-  while (g_flag.precision > len)//9 > 6
-  {
-    len++;//9
-    cnt++;//9
-  }
-  int i = 0; //-7.9d -12345
-  int z = g_flag.width - len;//5
-  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i < z)//08d 123
-  {
-    i++;
-    cnt++; //00000123
-  }
+  //cnt = 0;
+  cnt = len;
+  while (g_flag.precision > len++)
+    cnt++;
+  i = 0;
+  z = g_flag.width - len;
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i++ < z)
+    cnt++;
   if(g_flag.precision == 0 && a == 0)
     cnt--;
   free(rst);
   return (cnt);
 }
-void make_utype(unsigned int a)
+
+void make_utype(unsigned int a, char *base)
 {
   char *rst;
   int len;
-  int i = 0;
+  int i;
+  int z;
 
-  rst = ft_itoa_u(a);
+  rst = ft_itoa_base(a, 10, base);
   len = ft_strlen(rst);
-  
+  i = 0;
   while (g_flag.precision - len > i++)
   {
     write (1, "0", 1);
     g_flag.count++;
   }
   i = 0;
-  int z = g_flag.width - len;
+  z = g_flag.width - len;
   while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i++ < z)
   {
     write(1, "0", 1);
@@ -247,74 +233,71 @@ void make_utype(unsigned int a)
     write(1, rst, len);
   else
     len = 0;
-  g_flag.count += len;//-000012345
+  g_flag.count += len;
   free(rst);
 }
+*/
 
 void print_u(va_list ap)
 {
   unsigned int a;
+  char *base;
   
   a = va_arg(ap, unsigned int);
-  int len = count_utype(a);
+  base = "0123456789";
+  int len = count_uxtype(a, 10, base);
   if (g_flag.minus)
   {
-    make_utype(a);
+    make_uxtype(a, 10, base);
     padding(len);
   }
   else
   {
     padding(len);
-    make_utype(a);    
+    make_uxtype(a, 10, base);
   }
 }
 
-
-
-int count_xtype(unsigned int a, char *base)
+int count_uxtype(unsigned int a, int base_num, char *base)
 {
   char *rst;
   int len;
   int cnt;
+  int i;
+  int z;
 
-  rst = ft_itoa_16(a, base);
+  rst = ft_itoa_base(a, base_num, base);
   len = ft_strlen(rst);
-  cnt = 0;
-  cnt += len;
-  while (g_flag.precision > len)//9 > 6
-  {
-    len++;//9
-    cnt++;//9
-  }
-  int i = 0; //-7.9d -12345
-  int z = g_flag.width - len;//5
-  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i < z)//08d 123
-  {
-    i++;
-    cnt++; //00000123
-  }
+  cnt = len;
+  while (g_flag.precision > len++)
+    cnt++;
+  i = 0;
+  z = g_flag.width - len;
+  while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i++ < z)
+    cnt++;
   if(g_flag.precision == 0 && a == 0)
     cnt--;
   free(rst);
   return (cnt);
 }
 
-void make_xtype(unsigned int a, char *base)
+void make_uxtype(unsigned int a, int base_num, char *base)
 {
   char *rst;
   int len;
-  int i = 0;
+  int i;
+  int z;
 
-  rst = ft_itoa_16(a, base);
+  rst = ft_itoa_base(a, base_num, base);
   len = ft_strlen(rst);
-  
+  i = 0;
   while (g_flag.precision - len > i++)
   {
     write (1, "0", 1);
     g_flag.count++;
   }
   i = 0;
-  int z = g_flag.width - len;
+  z = g_flag.width - len;
   while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i++ < z)
   {
     write(1, "0", 1);
@@ -324,7 +307,7 @@ void make_xtype(unsigned int a, char *base)
     write(1, rst, len);
   else
     len = 0;
-  g_flag.count += len;//-000012345
+  g_flag.count += len;
   free(rst);
 }
 
@@ -338,17 +321,17 @@ void print_x(va_list ap)
     base = "0123456789ABCDEF";
   else
     base = "0123456789abcdef";
-  int len = count_xtype(a, base);
+  int len = count_uxtype(a, 16, base);
   
   if (g_flag.minus)
   {
-    make_xtype(a, base);
+    make_uxtype(a, 16, base);
     padding(len);
   }
   else
   {
     padding(len);
-    make_xtype(a, base);    
+    make_uxtype(a, 16, base);    
   }
 }
 
@@ -359,7 +342,7 @@ int count_ptype(long long a, char *base)
   int len;
   int cnt;
 
-  rst = ft_itoa_x(a, base);
+  rst = ft_itoa_long(a, base);
   len = ft_strlen(rst);
   cnt = 2;
   cnt += len;
@@ -374,7 +357,7 @@ void make_ptype(long long a, char *base)
   char *rst;
   int len;
 
-  rst = ft_itoa_x(a, base);
+  rst = ft_itoa_long(a, base);
   len = ft_strlen(rst);
   
   write(1, "0x", 2);
@@ -383,7 +366,7 @@ void make_ptype(long long a, char *base)
     write(1, rst, len);
   else
     len = 0;
-  g_flag.count += len;//-000012345
+  g_flag.count += len;
   free(rst);
 }
 
@@ -408,6 +391,3 @@ void print_p(va_list ap)
     make_ptype(a, base);    
   }
 }
-
-//p 주소 12자리, void *으로 받기 
-
