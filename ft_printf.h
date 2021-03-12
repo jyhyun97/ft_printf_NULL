@@ -33,18 +33,5 @@ char	*ft_strchr(const char *s, int c);
 void	*ft_memcpy(void *d, void const *s, size_t n);
 size_t	ft_strlen(const char *src);
 
-void    init_flag(Flag *flag);
-int set_flag(char **res, char a, int if_con);
-int    set_prev_dot_v(Flag *flag, char **res, va_list ap);
-int    set_after_dot_v(char **res, char type, va_list ap);
-int    set_no_dot_v(Flag *flag, char **res, char type, va_list ap);
-Flag    set_opt(va_list ap, char **res, char type);
-void    set_d(va_list ap, char **res, int *count);
-void print_c(va_list ap, char **res);
-void print_s(va_list ap, char **res);
-int set_res(va_list ap, char **res);
-char    *set_dtarg(char *a, int *k);
-int checker(va_list ap, const char *a);
-void print_rst(va_list ap, const char *format);
 int ft_printf(const char *format, ...);
 #endif

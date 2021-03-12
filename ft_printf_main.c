@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-void    init_flag(Flag *flag)
+static  void    init_flag(Flag *flag)
 {
     flag->minus = 0;
     flag->plus = 0;
@@ -13,7 +13,7 @@ void    init_flag(Flag *flag)
     flag->pvalue = 0;
 }
 
-int set_flag(char **res, char a, int if_con)
+static  int set_flag(char **res, char a, int if_con)
 {
     int count;
     char *tmp;
@@ -34,7 +34,7 @@ int set_flag(char **res, char a, int if_con)
     return (count);
 }
 
-int    set_prev_dot_v(Flag *flag, char **res, va_list ap)
+static  int    set_prev_dot_v(Flag *flag, char **res, va_list ap)
 {
     char    *tmp;
     char    arr[20];
@@ -64,7 +64,7 @@ int    set_prev_dot_v(Flag *flag, char **res, va_list ap)
     return (ft_atoi(arr));
 }
 
-int    set_after_dot_v(char **res, char type, va_list ap)
+static  int    set_after_dot_v(char **res, char type, va_list ap)
 {
     char    *tmp;
     char    arr[20];
@@ -88,7 +88,7 @@ int    set_after_dot_v(char **res, char type, va_list ap)
     return (ft_atoi(arr));
 }
 
-int    set_no_dot_v(Flag *flag, char **res, char type, va_list ap)
+static  int    set_no_dot_v(Flag *flag, char **res, char type, va_list ap)
 {
     char    *tmp;
     char    arr[20];
@@ -98,7 +98,6 @@ int    set_no_dot_v(Flag *flag, char **res, char type, va_list ap)
 
     point = 0;
     value = 0;
-    count = 0;
     ft_memset(arr, 0, 20);
     point = flag->space + flag->zero + flag->plus + flag->minus;
     tmp = *res + point;
@@ -118,38 +117,36 @@ int    set_no_dot_v(Flag *flag, char **res, char type, va_list ap)
     return (ft_atoi(arr));
 }
 
-Flag    set_opt(va_list ap, char **res, char type)
+static  void    set_opt(Flag *flag, va_list ap, char **res, char type)
 {
-    Flag    flag;
-
-    init_flag(&flag);
-    flag.space = set_flag(res, ' ', 0);
-    flag.dot = set_flag(res, '.', 0);
-    flag.zero = set_flag(res, '0', flag.dot);
-    flag.plus = set_flag(res, '+', flag.space);
-    flag.minus = set_flag(res, '-', flag.zero);
-    if (flag.dot)
+    init_flag(flag);
+    flag->space = set_flag(res, ' ', 0);
+    flag->dot = set_flag(res, '.', 0);
+    flag->zero = set_flag(res, '0', flag->dot);
+    flag->plus = set_flag(res, '+', flag->space);
+    flag->minus = set_flag(res, '-', flag->zero);
+    if (flag->dot)
     {
-        flag.width = set_prev_dot_v(&flag, res, ap);
-        flag.precision = set_after_dot_v(res, type, ap);
+        flag->width = set_prev_dot_v(flag, res, ap);
+        flag->precision = set_after_dot_v(res, type, ap);
     }
     else
-        flag.width = set_no_dot_v(&flag, res, type, ap);
-    if (flag.value < 0 || (flag.value >= 0 && flag.plus))
-        flag.space = 0;
+        flag->width = set_no_dot_v(flag, res, type, ap);
+    if (flag->value < 0 || (flag->value >= 0 && flag->plus))
+        flag->space = 0;
     if (type == 'c' || type == 'd')
-        flag.value = va_arg(ap, int);
-    else if(type == 's')
-        flag.pvalue = va_arg(ap, char *);
-    return (flag);
+        flag->value = va_arg(ap, int);
+//    else if(type == 's')
+//        flag->pvalue = va_arg(ap, char *);
+    //return (flag);
 }
 
-void    set_d(va_list ap, char **res, int *count)
+static  void    set_d(va_list ap, char **res, int *count)
 {
     Flag    flag;
 
     init_flag(&flag);
-    flag = set_opt(ap, res, 'd');
+    set_opt(&flag, ap, res, 'd');
     free(*res); //여기서 flag처리해주는 함수.. 구현해야함..실질적으로 각각 파싱기능으로 들어가는 함수 구현하는부분 시작
     *res = ft_itoa(va_arg(ap, int));
     *count = ft_strlen(*res);
@@ -157,17 +154,17 @@ void    set_d(va_list ap, char **res, int *count)
     free(*res);
 }
 
-void print_padding(char *a)
+static  void print_padding(char *a)
 {
     write (1, a, 1);
     g_count++;
 }
 
-void print_c(va_list ap, char **res)
+static  void print_c(va_list ap, char **res)
 {
     Flag    flag;
 
-    flag = set_opt(ap, res, 'c');
+    set_opt(&flag, ap, res, 'c');
     free(*res);
     if (flag.minus)
     {
@@ -185,17 +182,18 @@ void print_c(va_list ap, char **res)
     }
 }
 
-void print_s(va_list ap, char **res)
+static  void print_s(va_list ap, char **res)
 {
     Flag    flag;
     char    *pvalue;
     size_t  len;
     int     real_len;
 
-    flag = set_opt(ap, &(*res), 's');
+    init_flag(&flag);
+    set_opt(&flag, ap, res, 's');
     free(*res);
     *res = 0;
-    pvalue = flag.pvalue;
+    pvalue = va_arg(ap, char *);
     if (!pvalue)
         pvalue = "(null)";
     len = ft_strlen(pvalue);
@@ -216,9 +214,10 @@ void print_s(va_list ap, char **res)
         write(1, pvalue, len);
         g_count += len;
     }
+    init_flag(&flag);
 }
 
-int set_res(va_list ap, char **res)
+static  int set_res(va_list ap, char **res)
 {
     int     count;
     //char    type;
@@ -232,7 +231,7 @@ int set_res(va_list ap, char **res)
         print_s(ap, res);
     return (count);
 }
-char    *set_dtarg(char *a, int *k)
+static  char    *set_dtarg(char *a, int *k)
 {
     char    *pt_type;
 
@@ -244,7 +243,7 @@ char    *set_dtarg(char *a, int *k)
     return (pt_type);
 }
 
-int checker(va_list ap, const char *a)
+static  int checker(va_list ap, const char *a)
 {
     char *res;
     int k;
@@ -255,7 +254,7 @@ int checker(va_list ap, const char *a)
     return (k + 1);
 }
 
-void print_rst(va_list ap, const char *format)
+static  void print_rst(va_list ap, const char *format)
 {
     int i;
 

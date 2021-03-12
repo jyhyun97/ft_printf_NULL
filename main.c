@@ -8,6 +8,7 @@ int a = 20;
 while (a--)
 {
     //printf("%d\t",a);
+    ft_printf("-->|%-*.*s|<--\n", 12,-10, s);
     ft_printf("-->|%-*s|<--\n", 4, s);
 }
 printf("-->|%-*s|<--\n", 4, s);
