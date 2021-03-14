@@ -150,12 +150,13 @@ int count_dtype(int a)
   cnt = abs_len;
   if (a < 0)
     cnt++;
+  z = g_flag.width - cnt;
   while (g_flag.precision > abs_len++)
     cnt++;
   i = 0;
-  z = g_flag.width - abs_len;
-  if (a < 0)
-    z -= 1;
+  //z = g_flag.width - abs_len;//g_flag.width - abs_len
+  //if (a < 0)
+  //  z -= 1;
   while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i++ < z)
     cnt++;
   if(g_flag.precision == 0 && a == 0)
@@ -166,21 +167,21 @@ int count_dtype(int a)
 
 void print_d(va_list ap)
 {
-  int a;
-  int len;
-  
-  a = va_arg(ap, int);
-  len = count_dtype(a);
-  if (g_flag.minus)
+	int a;
+	int len;
+
+	a = va_arg(ap, int);
+	len = count_dtype(a);
+	if (g_flag.minus)
 	{
-	  make_dtype(a);
-    padding(len);
+		make_dtype(a);
+		padding(len);
 	}
 	else
 	{
-	padding(len);
-	make_dtype(a);
-  }
+		padding(len);
+		make_dtype(a);
+	}
 }
 /*
 int count_utype(unsigned int a, char *base)
@@ -272,7 +273,7 @@ int count_uxtype(unsigned int a, int base_num, char *base)
   while (g_flag.precision > len++)
     cnt++;
   i = 0;
-  z = g_flag.width - len;
+  z = g_flag.width - cnt;
   while (g_flag.minus == 0 && g_flag.zero == 1 && g_flag.precision < 0 && i++ < z)
     cnt++;
   if(g_flag.precision == 0 && a == 0)
