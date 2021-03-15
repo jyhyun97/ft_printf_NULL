@@ -57,3 +57,61 @@ int ft_abs(int a)
     a *= -1;
   return (a);
 }
+
+char *ft_itoa_base(unsigned int n, int base_num, char *base)//base = "0123456789abcdef"
+{
+    char *rst;
+    unsigned int digit;
+    unsigned int a;
+    
+    a = n;
+    digit = 0;
+    if (a == 0)
+        digit++;
+    while (a > 0)
+    {
+        a /= base_num;
+        digit++;
+    }
+    rst = (char *)malloc(digit + 1);
+    if (rst == 0)
+        return (0);
+    a = n;
+    rst[digit] = '\0';
+    while (digit > 0)
+    {
+        digit--;
+        rst[digit] = base[a % base_num];
+        a /= base_num;
+    }
+    return (rst);
+}
+
+char *ft_itoa_long(long long n, char *base)
+{
+    char *rst;
+    unsigned int digit;
+    long long a;
+    
+    a = n;
+    digit = 0;
+    if (a == 0)
+        digit++;
+    while (a > 0)
+    {
+        a /= 16;
+        digit++;
+    }
+    rst = (char *)malloc(digit + 1);
+    if (rst == 0)
+        return (0);
+    a = n;
+    rst[digit] = '\0';
+    while (digit > 0)
+    {
+        digit--;
+        rst[digit] = base[a % 16];
+        a /= 16;
+    }
+    return (rst);
+}
