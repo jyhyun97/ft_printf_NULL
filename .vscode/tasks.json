@@ -2,7 +2,7 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: gcc 활성 파일 빌드",
+            "label": "C/C++: clang 활성 파일 빌드",
             "command": "/usr/bin/clang",
             "args": [
                 "-g",
