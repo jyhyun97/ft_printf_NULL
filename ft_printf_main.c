@@ -238,39 +238,62 @@ static  void print_per(va_list *ap, char **res)
     free(flag);
 }
 
+static void print_d_value(Flag *flag)
+{
+    char    *pvalue;
+    //int     real_len;
+    int     sign;
+    int     len;
+    int     real_len;
+
+    sign = 1;
+    if (flag->minus)
+    {
+        write(1, "-", 1);
+        sign = -1;
+        g_count++;
+    }
+    else if (flag->plus)
+    {
+        write(1, "+", 1);
+        g_count++;
+    }
+    pvalue = ft_itoa(sign * flag->value);
+    len = ft_strlen(pvalue);
+    real_len = flag->precision - len;
+    while (--real_len >= 0)
+        print_padding("0");
+    write (1, pvalue, len);
+}
+
 static  void print_d(va_list *ap, char **res)
 {
     Flag    *flag;
-    size_t  len;
-    char    *pvalue;
-    int     real_len;
-    char    *pad;
+    //size_t  len;
+
+    //char    *pad;
 
     flag = (Flag *)malloc(sizeof(Flag));
     set_opt(flag, ap, res, 'd');
     free(*res);
     *res = 0;
-    if (!flag->zero || (flag->zero && flag->minus))
-        pad = " ";
-    else
-        pad = "0";
-    pvalue = ft_itoa(flag->value);
-    len = ft_strlen(pvalue);
-    real_len = flag->width - (int)len;
-    if (flag->minus)
-    {
-        write(1, pvalue, len);
-        g_count += len;
-        while (real_len-- > 0)
-            print_padding(pad);
-    }
-    else
-    {
-        while (real_len-- > 0)
-            print_padding(pad);
-        write(1, pvalue, len);
-        g_count += len;
-    }
+
+    print_d_value(flag);
+    //real_len = flag->width - (int)len;
+    // if (flag->minus)
+    // {
+    //     write(1, pvalue, len);
+    //     g_count += len;
+    //     while (real_len-- > 0)
+    //         print_padding(pad);
+    // }
+    // else
+    // {
+    //     while (real_len-- > 0)
+    //         print_padding(pad);
+    //     write(1, pvalue, len);
+    //     g_count += len;
+    // }
     free(flag);
 }
 
