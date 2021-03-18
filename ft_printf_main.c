@@ -122,7 +122,8 @@ static  void    set_opt(Flag *flag, va_list *ap, char **res, char type)
     init_flag(flag);
     flag->space = set_flag(res, ' ', 0);
     flag->dot = set_flag(res, '.', 0);
-    flag->zero = set_flag(res, '0', flag->dot);
+    //flag->zero = set_flag(res, '0', flag->dot);
+    flag->zero = set_flag(res, '0', 0);
     flag->plus = set_flag(res, '+', flag->space);
     flag->minus = set_flag(res, '-', flag->zero);
     if (flag->dot)
@@ -136,19 +137,6 @@ static  void    set_opt(Flag *flag, va_list *ap, char **res, char type)
         flag->space = 0;
     if (type == 'c' || type == 'd')
         flag->value = va_arg(*ap, int);
-}
-
-static  void    set_d(va_list *ap, char **res, int *count)
-{
-    Flag    flag;
-
-    init_flag(&flag);
-    set_opt(&flag, ap, res, 'd');
-    free(*res); //여기서 flag처리해주는 함수.. 구현해야함..실질적으로 각각 파싱기능으로 들어가는 함수 구현하는부분 시작
-    *res = ft_itoa(va_arg(*ap, int));
-    *count = ft_strlen(*res);
-    write(1, *res, *count);
-    free(*res);
 }
 
 static  void print_padding(char *a)
@@ -216,24 +204,92 @@ static  void print_s(va_list *ap, char **res)
     free(flag);
 }
 
-static  int set_res(va_list *ap, char **res)
+static  void print_per(va_list *ap, char **res)
 {
-    int     count;
+    Flag    *flag;
+    size_t  len;
+    int     real_len;
+    char    *pad;
 
-    count = 0;
+    flag = (Flag *)malloc(sizeof(Flag));
+    set_opt(flag, ap, res, '%');
+    free(*res);
+    *res = 0;
+    if (!flag->zero || (flag->zero && flag->minus))
+        pad = " ";
+    else
+        pad = "0";
+    len = 1;
+    real_len = flag->width - (int)len;
+    if (flag->minus)
+    {
+        write(1, "%", len);
+        g_count += len;
+        while (real_len-- > 0)
+            print_padding(pad);
+    }
+    else
+    {
+        while (real_len-- > 0)
+            print_padding(pad);
+        write(1, "%", len);
+        g_count += len;
+    }
+    free(flag);
+}
+
+static  void print_d(va_list *ap, char **res)
+{
+    Flag    *flag;
+    size_t  len;
+    char    *pvalue;
+    int     real_len;
+    char    *pad;
+
+    flag = (Flag *)malloc(sizeof(Flag));
+    set_opt(flag, ap, res, 'd');
+    free(*res);
+    *res = 0;
+    if (!flag->zero || (flag->zero && flag->minus))
+        pad = " ";
+    else
+        pad = "0";
+    pvalue = ft_itoa(flag->value);
+    len = ft_strlen(pvalue);
+    real_len = flag->width - (int)len;
+    if (flag->minus)
+    {
+        write(1, pvalue, len);
+        g_count += len;
+        while (real_len-- > 0)
+            print_padding(pad);
+    }
+    else
+    {
+        while (real_len-- > 0)
+            print_padding(pad);
+        write(1, pvalue, len);
+        g_count += len;
+    }
+    free(flag);
+}
+
+static  void set_res(va_list *ap, char **res)
+{
     if (ft_strchr(*res, 'd'))
-        set_d(ap, res, &count);
+        print_d(ap, res);
     else if (ft_strchr(*res, 'c'))
         print_c(ap, res);
     else if (ft_strchr(*res, 's'))
         print_s(ap, res);
-    return (count);
+    else if (ft_strchr(*res, '%'))
+        print_per(ap, res);
 }
 static  char    *set_dtarg(char *a, int *k)
 {
     char    *pt_type;
 
-    while (a[*k] != 'd' && a[*k] != 'c' && a[*k] != 's')
+    while (a[*k] != 'd' && a[*k] != 'c' && a[*k] != 's' && a[*k] != '%')
         (*k)++;
     pt_type = (char *)malloc(((*k) + 2) * sizeof(char));
     if (pt_type)

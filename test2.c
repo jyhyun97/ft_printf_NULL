@@ -1,24 +1,20 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <stdarg.h>
+
+void test(const char *a, ...)
+{
+  va_list ap;
+
+  va_start(ap, a);
+  printf("%ll", va_arg(ap, long long));
+  va_end(ap);
+}
 
 int main ()
 {
-	write(1, "\0", 1); //char *
-	write(1, "\n", 1);
-	printf("1|%*.c|\n",10,'');
-	printf("1.1|%*.*d|\n", -10, 7, -123);
-	printf(" |1234567890|\n");
-	printf("2|%*.4d|\n", -10,-10);
-	printf("*|%-+*d|\n", 10,0);
-	printf("3|%*s|\n",012,"123456789");
-	printf("4|%0+10d|\n",-13);
-	printf("5|%+010d|\n",-13);
-	printf("6|%- d|\n",1234567890);
-	printf("7|%- 10d|\n",-13);
-	printf("8|%0 10d|\n",-13);
-	printf("9|%+010d|\n",-13);
-	printf(" |1234567890|");
+  test("a", 1231123123123123);
 	return 0;
 }
 //warning

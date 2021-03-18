@@ -4,7 +4,7 @@
 int main(void)
 {
 char *s=0;
-    ft_printf("-->|%8.16s|<--\n", s);
-    ft_printf("-->|%8s|<--\n", s);
+    ft_printf("-->|%0*.5%|<--\n",-4);
+    //ft_printf("-->|%8s|<--\n", s);
 return 0;
 }
