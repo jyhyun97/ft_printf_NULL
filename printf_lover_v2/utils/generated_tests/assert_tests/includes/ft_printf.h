@@ -22,6 +22,9 @@ typedef struct _flag {
     int width;
     int precision;
     int value;
+    int v_len;
+    int p_len;
+    int sign;
     char *pvalue;
 } Flag;
 

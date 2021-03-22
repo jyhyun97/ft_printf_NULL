@@ -10,6 +10,9 @@ static  void    init_flag(Flag *flag)
     flag->width = 0;
     flag->precision = 0;
     flag->value = 0;
+    flag->v_len = 0;
+    flag->p_len = 0;
+    flag->sign = 0;
     flag->pvalue = 0;
 }
 
@@ -240,52 +243,87 @@ static  void print_per(va_list *ap, char **res)
 
 static void print_d_value(Flag *flag)
 {
-    char    *pvalue;
-    int     v_len;
-    int     p_len;
-    int     sign;
+    int p_len;
 
-    sign = 1;
-    if (flag->minus)
-    {
-        print_padding("-");
-        sign = -1;
-    }
-    else if (flag->plus)
-        print_padding("+");
-    pvalue = ft_itoa(sign * flag->value);
-    v_len = ft_strlen(pvalue);
-    p_len = flag->precision - v_len;
+    p_len = flag->p_len;
     while (--p_len >= 0)
         print_padding("0");
+    write(1, flag->pvalue, flag->v_len);
+    g_count += flag->v_len;
 }
 
-static  void print_d(va_list *ap, char **res)
+static void print_d_width(Flag *flag)
+{
+    char    *pad;
+    int     real_len;
+    int     sign;
+
+    sign = 0;
+    if (flag->value < 0)
+        sign = 1;
+    if (flag->zero && !flag->dot && !flag->minus)
+        pad = "0";
+    else
+        pad = " ";
+    if (flag->p_len >= 0)
+        real_len = flag->width - (flag->v_len + flag->p_len) - sign;
+    else
+        real_len = flag->width - flag->v_len - sign;
+    while (--real_len >= 0)
+        print_padding(pad);
+}
+
+void    print_d_sign(Flag *flag)
+{
+    if (flag->value <0)
+        print_padding("-");
+}
+
+void    print_in_order(Flag *flag, void (*a)(Flag *),void (*b)(Flag *), void (*c)(Flag *))
+{
+    a(flag);
+    b(flag);
+    c(flag);
+}
+
+static void    set_d_flag(Flag *flag)
+{
+    flag->sign = 1;
+    if (flag->value < 0)
+        flag->sign = -1;
+    flag->pvalue = ft_itoa(flag->sign * flag->value);
+    if (*(flag->pvalue) == '0' && flag->precision == 0 && flag->dot)
+        flag->v_len = 0;
+    else
+        flag->v_len = ft_strlen(flag->pvalue);
+    flag->p_len = flag->precision - flag->v_len;
+    if (flag->precision < 0)
+        flag->dot = 0;
+}
+
+static void     print_d(va_list *ap, char **res)
 {
     Flag    *flag;
-    // size_t  len;
-    // char    *pvalue;
-    // int     real_len;
-    // char    *pad;
 
     flag = (Flag *)malloc(sizeof(Flag));
     set_opt(flag, ap, res, 'd');
     free(*res);
     *res = 0;
-    // if (flag->minus)
-    // {
-    //     write(1, pvalue, len);
-    //     g_count += len;
-    //     while (real_len-- > 0)
-    //         print_padding(pad);
-    // }
-    // else
-    // {
-    //     while (real_len-- > 0)
-    //         print_padding(pad);
-    //     write(1, pvalue, len);
-    //     g_count += len;
-    // }
+    set_d_flag(flag);
+    if (flag->minus)
+        print_in_order(flag, print_d_sign, print_d_value, print_d_width);
+    else
+    {
+        if (flag->dot)
+            print_in_order(flag, print_d_width, print_d_sign, print_d_value);
+        else
+        {
+            if (flag->zero)
+                print_in_order(flag, print_d_sign, print_d_width, print_d_value);
+            else
+                print_in_order(flag, print_d_width, print_d_sign, print_d_value);
+        }
+    }
     free(flag);
 }
 
