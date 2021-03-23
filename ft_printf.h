@@ -35,6 +35,7 @@ int		ft_atoi(const char *str);
 char	*ft_strchr(const char *s, int c);
 void	*ft_memcpy(void *d, void const *s, size_t n);
 size_t	ft_strlen(const char *src);
+char	*ft_itoa_base(long long value, int base);
 
 int ft_printf(const char *format, ...);
 #endif

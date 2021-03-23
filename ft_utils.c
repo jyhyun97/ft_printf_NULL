@@ -40,9 +40,12 @@ size_t	ft_strlen(const char *src)
 	size_t count;
 
 	count = 0;
-	while (*src++ != '\0')
+	if (src)
 	{
-		count++;
+		while (*src++ != '\0')
+		{
+			count++;
+		}
 	}
 	return (count);
 }

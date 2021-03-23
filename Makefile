@@ -5,7 +5,7 @@ RM      = rm -f
 NAME	= libftprintf.a
 INC     = ./ft_printf.h
 
-MEM		= ft_itoa.c ft_atoi.c \
+MEM		= ft_itoa.c ft_atoi.c ft_itoa_base.c\
 		  ft_printf_main.c ft_utils.c \
 
 

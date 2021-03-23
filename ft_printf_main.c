@@ -138,14 +138,17 @@ static  void    set_opt(Flag *flag, va_list *ap, char **res, char type)
         flag->width = set_no_dot_v(flag, res, type, ap);
     if (flag->value < 0 || (flag->value >= 0 && flag->plus))
         flag->space = 0;
-    if (type == 'c' || type == 'd')
+    if (type == 'c' || type == 'd' || type == 'i' || type == 'u')
         flag->value = va_arg(*ap, int);
 }
 
-static  void print_padding(char *a)
+static  void put_str(char *a)
 {
-    write (1, a, 1);
-    g_count++;
+    int n;
+
+    n = ft_strlen(a);
+    write (1, a, n);
+    g_count += n;
 }
 
 static  void print_c(va_list *ap, char **res)
@@ -160,12 +163,12 @@ static  void print_c(va_list *ap, char **res)
         write(1, &(flag->value), 1);
         g_count++;
         while (--flag->width > 0)
-            print_padding(" ");
+            put_str(" ");
     }
     else
     {
         while (--flag->width > 0)
-            print_padding(" ");
+            put_str(" ");
         write(1, &(flag->value), 1);
         g_count++;
     }
@@ -195,12 +198,12 @@ static  void print_s(va_list *ap, char **res)
         write(1, pvalue, len);
         g_count += len;
         while (real_len-- > 0)
-            print_padding(" ");
+            put_str(" ");
     }
     else
     {
         while (real_len-- > 0)
-            print_padding(" ");
+            put_str(" ");
         write(1, pvalue, len);
         g_count += len;
     }
@@ -229,12 +232,12 @@ static  void print_per(va_list *ap, char **res)
         write(1, "%", len);
         g_count += len;
         while (real_len-- > 0)
-            print_padding(pad);
+            put_str(pad);
     }
     else
     {
         while (real_len-- > 0)
-            print_padding(pad);
+            put_str(pad);
         write(1, "%", len);
         g_count += len;
     }
@@ -247,7 +250,7 @@ static void print_d_value(Flag *flag)
 
     p_len = flag->p_len;
     while (--p_len >= 0)
-        print_padding("0");
+        put_str("0");
     write(1, flag->pvalue, flag->v_len);
     g_count += flag->v_len;
 }
@@ -270,13 +273,13 @@ static void print_d_width(Flag *flag)
     else
         real_len = flag->width - flag->v_len - sign;
     while (--real_len >= 0)
-        print_padding(pad);
+        put_str(pad);
 }
 
 void    print_d_sign(Flag *flag)
 {
     if (flag->value <0)
-        print_padding("-");
+        put_str("-");
 }
 
 void    print_in_order(Flag *flag, void (*a)(Flag *),void (*b)(Flag *), void (*c)(Flag *))
@@ -324,12 +327,48 @@ static void     print_d(va_list *ap, char **res)
                 print_in_order(flag, print_d_width, print_d_sign, print_d_value);
         }
     }
+    free(flag->pvalue);
+    free(flag);
+}
+
+static  void print_p(va_list *ap, char **res)
+{
+    Flag    *flag;
+    size_t  len;
+    int     real_len;
+
+    flag = (Flag *)malloc(sizeof(Flag));
+    set_opt(flag, ap, res, 'p');
+    free(*res);
+    *res = 0;
+    flag->pvalue = ft_itoa_base(va_arg(*ap, long long), 16);
+    len = ft_strlen(flag->pvalue);
+    if (*(flag->pvalue) == '0' && flag->dot)
+        len = 0;
+    real_len = flag->width - ((int)len + 2);
+    if (flag->minus)
+    {
+        put_str("0x");
+        write(1, flag->pvalue, len);
+        g_count += len;
+        while (real_len-- > 0)
+            put_str(" ");
+    }
+    else
+    {
+        while (real_len-- > 0)
+            put_str(" ");
+        put_str("0x");
+        write(1, flag->pvalue, len);
+        g_count += len;
+    }
+    free(flag->pvalue);
     free(flag);
 }
 
 static  void set_res(va_list *ap, char **res)
 {
-    if (ft_strchr(*res, 'd'))
+    if (ft_strchr(*res, 'd') || ft_strchr(*res, 'i'))
         print_d(ap, res);
     else if (ft_strchr(*res, 'c'))
         print_c(ap, res);
@@ -337,12 +376,14 @@ static  void set_res(va_list *ap, char **res)
         print_s(ap, res);
     else if (ft_strchr(*res, '%'))
         print_per(ap, res);
+    else if (ft_strchr(*res, 'p'))
+        print_p(ap, res);
 }
 static  char    *set_dtarg(char *a, int *k)
 {
     char    *pt_type;
 
-    while (a[*k] != 'd' && a[*k] != 'c' && a[*k] != 's' && a[*k] != '%')
+    while (a[*k] != 'd' && a[*k] != 'c' && a[*k] != 's' && a[*k] != '%' && a[*k] != 'p')
         (*k)++;
     pt_type = (char *)malloc(((*k) + 2) * sizeof(char));
     if (pt_type)
