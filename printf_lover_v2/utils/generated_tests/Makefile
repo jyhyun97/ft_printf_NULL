@@ -23,9 +23,9 @@ override SPECIFIER ?= -D NONE
 ############################ SETTINGS #########################################
 ###############################################################################
 ifndef $(DEBUG_FLAG)
-	DEBUG_FLAG=
+	DEBUG_FLAG= -g
 endif
-CFLAGS = $(DEBUG_FLAG) -Wall -Wextra -Werror $(SPECIFIER)
+CFLAGS = $(DEBUG_FLAG) -Wall -Wextra -Werror -fstack-protector-all $(SPECIFIER)
 CC = gcc
 NAME = printf_breaker
 I_FLAGS = -I $(INCLUDE_PATH)

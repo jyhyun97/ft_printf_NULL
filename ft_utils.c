@@ -24,10 +24,10 @@ void	*ft_calloc(size_t count, size_t size)
 
 char	*ft_strchr(const char *s, int c)
 {
-	size_t	len;
+	int	len;
 
 	len = ft_strlen(s) + 1;
-	while (len--)
+	while (len-- > 0)
 	{
 		if (*s++ == (char)c)
 			return ((char *)--s);
@@ -37,17 +37,12 @@ char	*ft_strchr(const char *s, int c)
 
 size_t	ft_strlen(const char *src)
 {
-	size_t count;
+	size_t i;
 
-	count = 0;
-	if (src)
-	{
-		while (*src++ != '\0')
-		{
-			count++;
-		}
-	}
-	return (count);
+	i = 0;
+	while (src[i])
+		i++;
+	return (i);
 }
 
 void	*ft_memcpy(void *d, void const *s, size_t n)
@@ -63,8 +58,8 @@ void	*ft_memcpy(void *d, void const *s, size_t n)
 		return (NULL);
 	if ((ps != NULL) || (pd != NULL))
 	{
-		while (n--)
-			*pd++ = *ps++;
+		while (n-- > 0)
+			*(char *)d++ = *ps++;
 	}
-	return (d);
+	return (pd);
 }

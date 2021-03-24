@@ -7,7 +7,7 @@ static int		ft_abs(long long nb)
 	return (nb);
 }
 
-char	*ft_itoa_base(long long value, int base)
+char	*ft_itoa_base(long long value, int base, int is_upper)
 {
 	char	*str;
 	int		size;
@@ -17,7 +17,10 @@ char	*ft_itoa_base(long long value, int base)
 
 	flag = 0;
 	size = 0;
-	tab = "0123456789abcdef";
+	if (is_upper)
+		tab = "0123456789ABCDEF";
+	else
+		tab = "0123456789abcdef";
 	if (base < 2 || base > 16)
 		return (0);
 	if (value < 0 && base == 10)

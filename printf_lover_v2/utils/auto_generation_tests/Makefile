@@ -19,7 +19,7 @@
 
 ############################ SETTINGS #########################################
 ###############################################################################
-CFLAGS = -g -fsanitize=address -Wall -Wextra -Werror $(SPECIFIER)
+CFLAGS = -g -fsanitize=address -fstack-protector-all -Wall -Wextra -Werror $(SPECIFIER)
 CC = gcc
 NAME = build_custom_functions
 I_FLAGS = -I $(INCLUDE_PATH)

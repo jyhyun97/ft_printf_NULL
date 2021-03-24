@@ -1,4 +1,4 @@
-CC      = cc -g
+CC      = gcc -g #-fstack-protector-all -fsanitize=address
 LIB		= ar rcs
 CFLAGS  = -Wall -Wextra -Werror
 RM      = rm -f
