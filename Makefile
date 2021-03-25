@@ -3,10 +3,16 @@ LIB		= ar rcs
 CFLAGS  = -Wall -Wextra -Werror
 RM      = rm -f
 NAME	= libftprintf.a
-INC     = ./ft_printf.h
+INC     = ./ft_printf.h flag_util.h
 
 MEM		= ft_itoa.c ft_atoi.c ft_itoa_base.c\
-		  ft_printf_main.c ft_utils.c \
+		  ft_printf.c ft_utils.c \
+		  print_c.c print_s.c \
+		  print_per.c print_d.c \
+		  print_u.c print_x.c \
+		  print_p.c \
+		  print_common.c flag_common.c \
+		  flag_common_util.c
 
 
 # LST		= ft_lstmap.c ft_lstnew.c \

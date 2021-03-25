@@ -3,8 +3,8 @@
 
 int main(void)
 {
-char *s = "123";
-assert(printf("-->|%-16.s|<--\n", s) == ft_printf("-->|%-16.s|<--\n", s));
+int s = 123;
+assert(printf("-->|%-16.d|<--\n", s) == ft_printf("-->|%-16.d|<--\n", s));
 // assert(printf("-->|%-16.*s|<--\n", -4, s) == ft_printf("-->|%-16.*s|<--\n", -4, s));
 // assert(printf("-->|%-16.*s|<--\n", -3, s) == ft_printf("-->|%-16.*s|<--\n", -3, s));
 // assert(printf("-->|%-16.*s|<--\n", -2, s) == ft_printf("-->|%-16.*s|<--\n", -2, s));

@@ -7,4 +7,5 @@ test.c
 *.o
 *.dSYM
 ft_printf_main
+a.out
 main
