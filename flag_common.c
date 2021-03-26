@@ -6,14 +6,26 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:26:33 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/25 16:40:53 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/26 22:22:12 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "flag_util.h"
 
+void	make_flag(Flag **flag)
+{
+	*flag = (Flag *)ft_calloc(1, sizeof(Flag));
+}
+
+void	delete_flag(Flag **flag)
+{
+	free(*flag);
+	*flag = 0;
+}
+
 void	set_flag(Flag *flag, va_list *ap, char *res, char type)
 {
+	flag->type = type;
 	flag->space = set_flag_mem(res, ' ', 0);
 	flag->dot = set_flag_mem(res, '.', 0);
 	flag->zero = set_flag_mem(res, '0', 0);
@@ -28,10 +40,10 @@ void	set_flag(Flag *flag, va_list *ap, char *res, char type)
 		flag->width = set_no_dot_v(flag, res, type, ap);
 	if (flag->value < 0 || (flag->value >= 0 && flag->plus))
 		flag->space = 0;
-	if (type == 'c' || type == 'd' || type == 'i')
+	if (flag->type == 'c' || flag->type == 'd' || flag->type == 'i')
 		flag->value = va_arg(*ap, int);
-	else if (type == 'u')
+	else if (flag->type == 'u')
 		flag->value = va_arg(*ap, unsigned int);
-	else if (type == 'x')
+	else if (flag->type == 'x' || flag->type == 'X')
 		flag->value = va_arg(*ap, long long);
 }

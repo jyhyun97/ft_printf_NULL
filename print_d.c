@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:18:37 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/25 16:44:05 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/26 22:17:38 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static void	set_d_flag(Flag *flag)
 		flag->dot = 0;
 }
 
-void	    print_d(va_list *ap, char *res)
+void	    print_d(va_list *ap, char *res, char type)
 {
 	Flag	*flag;
 
-	flag = (Flag *)ft_calloc(1, sizeof(Flag));
-	set_flag(flag, ap, res, 'd');
+	make_flag(&flag);
+	set_flag(flag, ap, res, type);
 	set_d_flag(flag);
 	if (flag->minus)
 		print_in_order(flag, print_d_sign, print_value, print_width);
@@ -55,6 +55,5 @@ void	    print_d(va_list *ap, char *res)
 		}
 	}
 	free(flag->pvalue);
-	free(flag);
-	flag = 0;
+	delete_flag(&flag);
 }

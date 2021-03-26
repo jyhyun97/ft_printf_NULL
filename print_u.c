@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:00:42 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/25 18:10:46 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/26 22:18:41 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static void	set_u_flag(Flag *flag)
 {
 	if (flag->value < 0)
-        flag->pvalue = ft_itoa(4294967295 + flag->value + 1);
-    else
-	    flag->pvalue = ft_itoa(flag->value);
+		flag->pvalue = ft_itoa(4294967295 + flag->value + 1);
+	else
+		flag->pvalue = ft_itoa(flag->value);
 	if (*(flag->pvalue) == '0' && flag->precision == 0 && flag->dot)
 		flag->v_len = 0;
 	else
@@ -27,12 +27,12 @@ static void	set_u_flag(Flag *flag)
 		flag->dot = 0;
 }
 
-void		print_u(va_list *ap, char *res)
+void		print_u(va_list *ap, char *res, char type)
 {
 	Flag    *flag;
 
-	flag = (Flag *)ft_calloc(1, sizeof(Flag));
-	set_flag(flag, ap, res, 'u');
+	make_flag(&flag);
+	set_flag(flag, ap, res, type);
 	set_u_flag(flag);
 	if (flag->minus)
 		print_in_order(flag, 0, print_value, print_width);
@@ -49,6 +49,5 @@ void		print_u(va_list *ap, char *res)
 		}
 	}
 	free(flag->pvalue);
-	free(flag);
-	flag = 0;
+	delete_flag(&flag);
 }

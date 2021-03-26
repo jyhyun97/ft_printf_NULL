@@ -6,40 +6,48 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 17:56:39 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/25 18:05:59 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/26 22:18:13 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_per(va_list *ap, char *res)
+static void	set_per_flag(Flag *flag)
 {
-	Flag	*flag;
-	size_t	len;
-	int		real_len;
-	char	*pad;
+	flag->pvalue = "%";
+	flag->v_len = 1;
+}
 
-	flag = (Flag *)ft_calloc(1, sizeof(Flag));
-	set_flag(flag, ap, res, '%');
+static void	put_per_value(Flag *flag)
+{
+	write(1, flag->pvalue, flag->v_len);
+	g_count += flag->v_len;
+}
+
+static void	put_per_width(Flag *flag)
+{
+	char	*pad;
+	int		real_len;
+
+	real_len = flag->width - flag->v_len;
 	if (!flag->zero || (flag->zero && flag->minus))
 		pad = " ";
 	else
 		pad = "0";
-	len = 1;
-	real_len = flag->width - (int)len;
+	while (real_len-- > 0)
+		put_str(pad);
+}
+
+void		print_per(va_list *ap, char *res, char type)
+{
+	Flag	*flag;
+
+	make_flag(&flag);
+	set_flag(flag, ap, res, type);
+	set_per_flag(flag);
 	if (flag->minus)
-	{
-		write(1, "%", len);
-		g_count += len;
-		while (real_len-- > 0)
-			put_str(pad);
-	}
+		print_in_order(flag, put_per_value, put_per_width, 0);
 	else
-	{
-		while (real_len-- > 0)
-			put_str(pad);
-		write(1, "%", len);
-		g_count += len;
-	}
-	free(flag);
+		print_in_order(flag, put_per_width, put_per_value, 0);
+	delete_flag(&flag);
 }

@@ -6,31 +6,33 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 17:51:49 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/25 17:55:42 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/26 22:17:20 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_c(va_list *ap, char *res)
+static void	put_c_value(Flag *flag)
+{
+	write(1, &(flag->value), 1);
+	g_count++;
+}
+
+static void	put_c_width(Flag *flag)
+{
+	while (--flag->width > 0)
+		put_str(" ");
+}
+
+void	print_c(va_list *ap, char *res, char type)
 {
 	Flag	*flag;
 
-	flag = (Flag *)ft_calloc(1, sizeof(Flag));
-	set_flag(flag, ap, res, 'c');
+	make_flag(&flag);
+	set_flag(flag, ap, res, type);
 	if (flag->minus)
-	{
-		write(1, &(flag->value), 1);
-		g_count++;
-		while (--flag->width > 0)
-			put_str(" ");
-	}
+		print_in_order(flag, put_c_value, put_c_width, 0);
 	else
-	{
-		while (--flag->width > 0)
-			put_str(" ");
-		write(1, &(flag->value), 1);
-		g_count++;
-	}
-	free(flag);
+		print_in_order(flag, put_c_width, put_c_value, 0);
+	delete_flag(&flag);
 }

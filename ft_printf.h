@@ -24,16 +24,17 @@ typedef struct	_flag {
 	int		v_len;
 	int		p_len;
 	int		sign;
+	char	type;
 	char	*pvalue;
 }				Flag;
 
-void	print_per(va_list *ap, char *res);
-void	print_c(va_list *ap, char *res);
-void	print_s(va_list *ap, char *res);
-void	print_d(va_list *ap, char *res);
-void	print_p(va_list *ap, char *res);
-void	print_x(va_list *ap, char *res);
-void	print_u(va_list *ap, char *res);
+void	print_per(va_list *ap, char *res, char type);
+void	print_c(va_list *ap, char *res, char type);
+void	print_s(va_list *ap, char *res, char type);
+void	print_d(va_list *ap, char *res, char type);
+void	print_p(va_list *ap, char *res, char type);
+void	print_x(va_list *ap, char *res, char type);
+void	print_u(va_list *ap, char *res, char type);
 
 void	*ft_memset(void *b, int c, size_t len);
 void	*ft_calloc(size_t count, size_t size);
@@ -44,6 +45,8 @@ void	*ft_memcpy(void *d, void const *s, size_t n);
 size_t	ft_strlen(const char *src);
 char	*ft_itoa_base(long long value, int base, int is_upper);
 
+void	make_flag(Flag **flag);
+void	delete_flag(Flag **flag);
 void	set_flag(Flag *flag, va_list *ap, char *res, char type);
 
 void	put_str(char *a);

@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 15:27:54 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/25 18:03:02 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/26 22:26:32 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ void	set_res(va_list *ap, char *res)
 
 	type = *(res + (int)ft_strlen(res) -1);
 	if (type == 'd' || type == 'i')
-		print_d(ap, res);
+		print_d(ap, res, type);
 	else if (type == 'c')
-		print_c(ap, res);
+		print_c(ap, res, type);
 	else if (type == 's')
-		print_s(ap, res);
+		print_s(ap, res, type);
 	else if (type == '%')
-		print_per(ap, res);
+		print_per(ap, res, type);
 	else if (type == 'p')
-		print_p(ap, res);
+		print_p(ap, res, type);
 	else if (type == 'u')
-		print_u(ap, res);
-	else if (type == 'x')
-		print_x(ap, res);
+		print_u(ap, res, type);
+	else if (type == 'x' || type == 'X')
+		print_x(ap, res, type);
 }
 
 char	*set_dtarg(char *a, int *k)
@@ -38,7 +38,9 @@ char	*set_dtarg(char *a, int *k)
 	char	*pt_type;
 
 	*k = 0;
-	while (a[*k] != 'd' && a[*k] != 'c' && a[*k] != 's' && a[*k] != '%' && a[*k] != 'p' && a[*k] != 'u' && a[*k] != 'x' && a[*k] != '\0')
+	while (a[*k] != 'd' && a[*k] != 'c' \
+	&& a[*k] != 's' && a[*k] != '%' && a[*k] != 'p' \
+	&& a[*k] != 'u' && a[*k] != 'x' && a[*k] != 'X' && a[*k] != '\0')
 		(*k)++;
 	if (a[*k] == '0')
 		return (0);
@@ -63,29 +65,29 @@ int		checker(va_list *ap, const char *a)
 
 void	print_rst(va_list *ap, const char *format)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (format[i] != '\0')
-    {
-        if (format[i] == '%')
-            i += checker(ap, &format[i + 1]);
-        else
-        {
-            write(1, &format[i], 1);
-            g_count++;
-        }
-        i++;
-    }
+	i = 0;
+	while (format[i] != '\0')
+	{
+		if (format[i] == '%')
+			i += checker(ap, &format[i + 1]);
+		else
+		{
+			write(1, &format[i], 1);
+			g_count++;
+		}
+		i++;
+	}
 }
 
-int     ft_printf(const char *format, ...)
+int		ft_printf(const char *format, ...)
 {
-    g_count = 0;
+	g_count = 0;
 
-    va_list ap;
-    va_start(ap, format);
-    print_rst(&ap, format);
+	va_list ap;
+	va_start(ap, format);
+	print_rst(&ap, format);
 	va_end(ap);
-    return (g_count);
+	return (g_count);
 }
