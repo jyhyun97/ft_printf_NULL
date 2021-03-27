@@ -10,6 +10,7 @@ ft_printf_main
 a.out
 *.gch
 main
+main.c
 ft_printf
 ft_itoa
 ft_utils
