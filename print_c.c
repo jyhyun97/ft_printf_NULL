@@ -6,27 +6,27 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 17:51:49 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/26 22:17:20 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/27 21:02:54 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	put_c_value(Flag *flag)
+static void	put_c_value(t_flag *flag)
 {
 	write(1, &(flag->value), 1);
 	g_count++;
 }
 
-static void	put_c_width(Flag *flag)
+static void	put_c_width(t_flag *flag)
 {
 	while (--flag->width > 0)
 		put_str(" ");
 }
 
-void	print_c(va_list *ap, char *res, char type)
+void		print_c(va_list *ap, char *res, char type)
 {
-	Flag	*flag;
+	t_flag	*flag;
 
 	make_flag(&flag);
 	set_flag(flag, ap, res, type);

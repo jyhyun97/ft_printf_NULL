@@ -6,13 +6,13 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:02:41 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/26 22:29:57 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/27 21:02:54 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	set_x_flag(Flag *flag)
+static void	set_x_flag(t_flag *flag)
 {
 	int	is_upper;
 
@@ -34,7 +34,7 @@ static void	set_x_flag(Flag *flag)
 
 void		print_x(va_list *ap, char *res, char type)
 {
-	Flag	*flag;
+	t_flag	*flag;
 
 	make_flag(&flag);
 	set_flag(flag, ap, res, type);

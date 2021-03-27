@@ -6,25 +6,25 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 17:56:39 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/26 22:18:13 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/27 21:02:54 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	set_per_flag(Flag *flag)
+static void	set_per_flag(t_flag *flag)
 {
 	flag->pvalue = "%";
 	flag->v_len = 1;
 }
 
-static void	put_per_value(Flag *flag)
+static void	put_per_value(t_flag *flag)
 {
 	write(1, flag->pvalue, flag->v_len);
 	g_count += flag->v_len;
 }
 
-static void	put_per_width(Flag *flag)
+static void	put_per_width(t_flag *flag)
 {
 	char	*pad;
 	int		real_len;
@@ -40,7 +40,7 @@ static void	put_per_width(Flag *flag)
 
 void		print_per(va_list *ap, char *res, char type)
 {
-	Flag	*flag;
+	t_flag	*flag;
 
 	make_flag(&flag);
 	set_flag(flag, ap, res, type);

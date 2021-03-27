@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/27 20:35:18 by gilee             #+#    #+#             */
+/*   Updated: 2021/03/27 20:37:51 by gilee            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 static int	ft_isspace(int c)
@@ -11,7 +23,7 @@ int			ft_atoi(const char *str)
 {
 	long long	nbr;
 	long long	sign;
-	size_t	i;
+	size_t		i;
 
 	nbr = 0;
 	sign = 1;

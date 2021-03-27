@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 15:27:54 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/26 22:26:32 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/27 21:28:55 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	set_res(va_list *ap, char *res)
 {
 	char	type;
 
-	type = *(res + (int)ft_strlen(res) -1);
+	type = *(res + (int)ft_strlen(res) - 1);
 	if (type == 'd' || type == 'i')
 		print_d(ap, res, type);
 	else if (type == 'c')
@@ -38,13 +38,13 @@ char	*set_dtarg(char *a, int *k)
 	char	*pt_type;
 
 	*k = 0;
-	while (a[*k] != 'd' && a[*k] != 'c' \
+	while (a[*k] != 'd' && a[*k] != 'i' && a[*k] != 'c' \
 	&& a[*k] != 's' && a[*k] != '%' && a[*k] != 'p' \
 	&& a[*k] != 'u' && a[*k] != 'x' && a[*k] != 'X' && a[*k] != '\0')
 		(*k)++;
-	if (a[*k] == '0')
+	if (a[*k] == '\0')
 		return (0);
-	pt_type = (char *)ft_calloc(((*k) + 2) ,sizeof(char));
+	pt_type = (char *)ft_calloc(((*k) + 2), sizeof(char));
 	if (pt_type)
 		ft_memcpy(pt_type, a, (*k) + 1);
 	return (pt_type);
@@ -83,9 +83,9 @@ void	print_rst(va_list *ap, const char *format)
 
 int		ft_printf(const char *format, ...)
 {
-	g_count = 0;
-
 	va_list ap;
+
+	g_count = 0;
 	va_start(ap, format);
 	print_rst(&ap, format);
 	va_end(ap);

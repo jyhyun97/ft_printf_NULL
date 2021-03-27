@@ -6,13 +6,13 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 17:52:50 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/26 22:18:28 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/27 21:02:54 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	set_s_flag(Flag *flag, va_list *ap)
+static void	set_s_flag(t_flag *flag, va_list *ap)
 {
 	flag->pvalue = va_arg(*ap, char *);
 	if (!flag->pvalue)
@@ -22,13 +22,13 @@ static void	set_s_flag(Flag *flag, va_list *ap)
 		flag->v_len = flag->precision;
 }
 
-static void	put_s_value(Flag *flag)
+static void	put_s_value(t_flag *flag)
 {
 	write(1, flag->pvalue, flag->v_len);
 	g_count += flag->v_len;
 }
 
-static void	put_s_width(Flag *flag)
+static void	put_s_width(t_flag *flag)
 {
 	int real_len;
 
@@ -39,7 +39,7 @@ static void	put_s_width(Flag *flag)
 
 void		print_s(va_list *ap, char *res, char type)
 {
-	Flag	*flag;
+	t_flag	*flag;
 
 	make_flag(&flag);
 	set_flag(flag, ap, res, type);

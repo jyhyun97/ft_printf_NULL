@@ -6,19 +6,19 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:18:37 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/26 22:17:38 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/27 21:02:54 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	print_d_sign(Flag *flag)
+static void	print_d_sign(t_flag *flag)
 {
-	if (flag->value <0)
+	if (flag->value < 0)
 		put_str("-");
 }
 
-static void	set_d_flag(Flag *flag)
+static void	set_d_flag(t_flag *flag)
 {
 	flag->sign = 1;
 	if (flag->value < 0)
@@ -33,9 +33,9 @@ static void	set_d_flag(Flag *flag)
 		flag->dot = 0;
 }
 
-void	    print_d(va_list *ap, char *res, char type)
+void		print_d(va_list *ap, char *res, char type)
 {
-	Flag	*flag;
+	t_flag	*flag;
 
 	make_flag(&flag);
 	set_flag(flag, ap, res, type);

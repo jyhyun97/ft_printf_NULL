@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/27 21:30:20 by gilee             #+#    #+#             */
+/*   Updated: 2021/03/27 21:30:56 by gilee            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-static int	ft_getlen(long long n)
+static int			ft_getlen(long long n)
 {
 	int	count;
 
@@ -17,7 +29,7 @@ static int	ft_getlen(long long n)
 	return (count);
 }
 
-static int	ft_ndec(int len)
+static int			ft_ndec(int len)
 {
 	int res;
 
@@ -37,14 +49,12 @@ static long long	ft_abs(long long num)
 	return (num);
 }
 
-char		*ft_itoa(long long n)
+char				*ft_itoa(long long n)
 {
 	char	*res;
 	int		flag;
 	int		len;
 
-	//if (n < INT_MIN || n > INT_MAX)
-	//	return (NULL);
 	flag = 0;
 	if (n < 0)
 	{

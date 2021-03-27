@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:30:27 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/25 16:39:36 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/27 21:38:17 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	set_flag_mem(char *res, char a, int if_con)
 	{
 		if (a == '.')
 			return (1);
-		while ((*tmp == '+' || *tmp == '-' || *tmp == '0' || *tmp == ' ') && *tmp != '\0')
+		while ((*tmp == '+' || *tmp == '-' \
+		|| *tmp == '0' || *tmp == ' ') && *tmp != '\0')
 		{
 			if (*tmp == a)
 				count++;
@@ -33,7 +34,7 @@ int	set_flag_mem(char *res, char a, int if_con)
 	return (count);
 }
 
-int	set_prev_dot_v(Flag *flag, char *res, va_list *ap)
+int	set_prev_dot_v(t_flag *flag, char *res, va_list *ap)
 {
 	char	*tmp;
 	char	arr[20];
@@ -52,11 +53,8 @@ int	set_prev_dot_v(Flag *flag, char *res, va_list *ap)
 		flag->minus = 1;
 		return (-count);
 	}
-	while(*tmp != '.')
-	{
-		count = count + 1;
-		tmp++;
-	}
+	while (*tmp++ != '.')
+		count++;
 	if (!count)
 		return (0);
 	ft_memcpy(arr, res + point, count);
@@ -87,7 +85,7 @@ int	set_after_dot_v(char *res, char type, va_list *ap)
 	return (ft_atoi(arr));
 }
 
-int	set_no_dot_v(Flag *flag, char *res, char type, va_list *ap)
+int	set_no_dot_v(t_flag *flag, char *res, char type, va_list *ap)
 {
 	char	*tmp;
 	char	arr[20];
@@ -108,7 +106,7 @@ int	set_no_dot_v(Flag *flag, char *res, char type, va_list *ap)
 		flag->minus = 1;
 		return (-count);
 	}
-	while(*tmp++ != type)
+	while (*tmp++ != type)
 		value++;
 	if (!value)
 		return (0);

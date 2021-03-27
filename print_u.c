@@ -6,13 +6,13 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:00:42 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/26 22:18:41 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/27 21:02:54 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	set_u_flag(Flag *flag)
+static void	set_u_flag(t_flag *flag)
 {
 	if (flag->value < 0)
 		flag->pvalue = ft_itoa(4294967295 + flag->value + 1);
@@ -29,7 +29,7 @@ static void	set_u_flag(Flag *flag)
 
 void		print_u(va_list *ap, char *res, char type)
 {
-	Flag    *flag;
+	t_flag	*flag;
 
 	make_flag(&flag);
 	set_flag(flag, ap, res, type);
