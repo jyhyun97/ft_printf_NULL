@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:30:27 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/27 21:38:17 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/28 16:49:58 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	set_flag_mem(char *res, char a, int if_con)
 	return (count);
 }
 
-int	set_prev_dot_v(t_flag *flag, char *res, va_list *ap)
+int	set_prev_dot_v(t_flag **flag, char *res, va_list *ap)
 {
 	char	*tmp;
 	char	arr[20];
@@ -43,14 +43,14 @@ int	set_prev_dot_v(t_flag *flag, char *res, va_list *ap)
 
 	count = 0;
 	ft_memset(arr, 0, sizeof(arr));
-	point = flag->space + flag->zero + flag->plus + flag->minus;
+	point = (*flag)->space + (*flag)->zero + (*flag)->plus + (*flag)->minus;
 	tmp = res + point;
 	if (*tmp == '*')
 	{
 		count = va_arg(*ap, int);
 		if (count > -1)
 			return (count);
-		flag->minus = 1;
+		(*flag)->minus = 1;
 		return (-count);
 	}
 	while (*tmp++ != '.')
@@ -85,7 +85,7 @@ int	set_after_dot_v(char *res, char type, va_list *ap)
 	return (ft_atoi(arr));
 }
 
-int	set_no_dot_v(t_flag *flag, char *res, char type, va_list *ap)
+int	set_no_dot_v(t_flag **flag, char *res, char type, va_list *ap)
 {
 	char	*tmp;
 	char	arr[20];
@@ -96,14 +96,14 @@ int	set_no_dot_v(t_flag *flag, char *res, char type, va_list *ap)
 	point = 0;
 	value = 0;
 	ft_memset(arr, 0, 20);
-	point = flag->space + flag->zero + flag->plus + flag->minus;
+	point = (*flag)->space + (*flag)->zero + (*flag)->plus + (*flag)->minus;
 	tmp = res + point;
 	if (*tmp == '*')
 	{
 		count = va_arg(*ap, int);
 		if (count > -1)
 			return (count);
-		flag->minus = 1;
+		(*flag)->minus = 1;
 		return (-count);
 	}
 	while (*tmp++ != type)

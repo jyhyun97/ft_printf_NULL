@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 20:48:17 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/27 21:00:54 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/28 16:58:16 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@
 
 int				g_count;
 typedef struct	s_flag {
-	int		minus;
-	int		plus;
-	int		space;
-	int		zero;
-	int		dot;
-	int		width;
-	int		precision;
-	int		value;
-	int		v_len;
-	int		p_len;
-	int		sign;
-	char	type;
-	char	*pvalue;
+	int			minus;
+	int			plus;
+	int			space;
+	int			zero;
+	int			dot;
+	int			width;
+	int			precision;
+	int			v_len;
+	int			p_len;
+	int			sign;
+	char		type;
+	long long	value;
+	char		*pvalue;
 }				t_flag;
 
 void			print_per(va_list *ap, char *res, char type);
@@ -59,13 +59,13 @@ char			*ft_itoa_base(long long value, int base, int is_upper);
 
 void			make_flag(t_flag **flag);
 void			delete_flag(t_flag **flag);
-void			set_flag(t_flag *flag, va_list *ap, char *res, char type);
+void			set_flag(t_flag **flag, va_list *ap, char *res, char type);
 
 void			put_str(char *a);
-void			print_value(t_flag *flag);
-void			print_width(t_flag *flag);
-void			print_in_order(t_flag *flag, \
-void (*a)(t_flag *), void (*b)(t_flag *), void (*c)(t_flag *));
+void			print_value(t_flag **flag);
+void			print_width(t_flag **flag);
+void			print_in_order(t_flag **flag, \
+void (*a)(t_flag **), void (*b)(t_flag **), void (*c)(t_flag **));
 
 void			set_res(va_list *ap, char *res);
 char			*set_dtarg(char *a, int *k);
