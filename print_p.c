@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:05:09 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/28 21:32:38 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/28 23:47:24 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static void	set_p_flag(t_flag **flag, va_list *ap)
 		(*flag)->v_len = 0;
 }
 
-static void	put_s_value(t_flag **flag)
+static void	put_p_value(t_flag **flag)
 {
 	put_str("0x");
 	write(1, (*flag)->pvalue, (*flag)->v_len);
 	g_count += (*flag)->v_len;
 }
 
-static void	put_s_width(t_flag **flag)
+static void	put_p_width(t_flag **flag)
 {
 	int real_len;
 
@@ -44,9 +44,9 @@ void		print_p(va_list *ap, char *res, char type)
 	set_flag(&flag, ap, res, type);
 	set_p_flag(&flag, ap);
 	if (flag->minus)
-		print_in_order(&flag, put_s_value, put_s_width, 0);
+		print_in_order(&flag, put_p_value, put_p_width, 0);
 	else
-		print_in_order(&flag, put_s_width, put_s_value, 0);
+		print_in_order(&flag, put_p_width, put_p_value, 0);
 	free(flag->pvalue);
 	delete_flag(&flag);
 }
