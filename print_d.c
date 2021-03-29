@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 16:18:37 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/28 16:59:11 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/29 13:48:56 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ static void	print_d_sign(t_flag **flag)
 		put_str("-");
 }
 
-static void	set_d_flag(t_flag **flag)
+static int	set_d_flag(t_flag **flag)
 {
 	(*flag)->sign = 1;
 	if ((*flag)->value < 0)
 		(*flag)->sign = -1;
 	(*flag)->pvalue = ft_itoa((*flag)->sign * (*flag)->value);
+	if (!(*flag)->pvalue)
+		return (ERR);
 	if (*((*flag)->pvalue) == '0' && (*flag)->precision == 0 && (*flag)->dot)
 		(*flag)->v_len = 0;
 	else
@@ -31,15 +33,18 @@ static void	set_d_flag(t_flag **flag)
 	(*flag)->p_len = (*flag)->precision - (*flag)->v_len;
 	if ((*flag)->precision < 0)
 		(*flag)->dot = 0;
+	return (DONE);
 }
 
-void		print_d(va_list *ap, char *res, char type)
+int			print_d(va_list *ap, char *res, char type)
 {
 	t_flag	*flag;
 
-	make_flag(&flag);
+	if (make_flag(&flag) == ERR)
+		return (ERR);
 	set_flag(&flag, ap, res, type);
-	set_d_flag(&flag);
+	if (set_d_flag(&flag) == ERR)
+		return (free_n_err(&flag));
 	if (flag->minus)
 		print_in_order(&flag, print_d_sign, print_value, print_width);
 	else
@@ -56,4 +61,5 @@ void		print_d(va_list *ap, char *res, char type)
 	}
 	free(flag->pvalue);
 	delete_flag(&flag);
+	return (DONE);
 }

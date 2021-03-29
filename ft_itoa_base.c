@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 20:24:48 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/27 21:31:14 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/29 13:18:54 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ char			*ft_itoa_base(long long value, int base, int is_upper)
 	flag = itoa_set_flag(value, base);
 	tab = set_tab(is_upper);
 	size = set_size(value, base) + flag + 1;
-	str = (char *)malloc(sizeof(char) * size + 1);
+	if (!(str = (char *)malloc(sizeof(char) * size + 1)))
+		return (NULL);
 	str[size] = '\0';
 	if (flag == 1)
 		str[0] = '-';

@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 17:56:39 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/28 17:01:11 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/29 13:36:20 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ static void	put_per_width(t_flag **flag)
 		put_str(pad);
 }
 
-void		print_per(va_list *ap, char *res, char type)
+int			print_per(va_list *ap, char *res, char type)
 {
 	t_flag	*flag;
 
-	make_flag(&flag);
+	if (make_flag(&flag) == ERR)
+		return (ERR);
 	set_flag(&flag, ap, res, type);
 	set_per_flag(&flag);
 	if (flag->minus)
@@ -50,4 +51,5 @@ void		print_per(va_list *ap, char *res, char type)
 	else
 		print_in_order(&flag, put_per_width, put_per_value, 0);
 	delete_flag(&flag);
+	return (DONE);
 }
