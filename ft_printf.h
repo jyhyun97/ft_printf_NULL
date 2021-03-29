@@ -6,7 +6,7 @@
 /*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/27 20:48:17 by gilee             #+#    #+#             */
-/*   Updated: 2021/03/29 13:48:56 by gilee            ###   ########.fr       */
+/*   Updated: 2021/03/29 18:27:24 by gilee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
-# include <stdio.h>
 
 int				g_count;
 typedef struct	s_flag {
