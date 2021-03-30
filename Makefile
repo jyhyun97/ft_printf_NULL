@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jumoon <jumoon@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/03/28 20:40:04 by jumoon            #+#    #+#              #
+#    Updated: 2021/03/30 20:48:27 by jumoon           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 NAME=libftprintf.a
 
@@ -11,15 +22,9 @@ AR=ar rcs
 
 RM=rm -f
 
-SRC=ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c \
-ft_memmove.c ft_memchr.c ft_memcmp.c ft_calloc.c ft_strdup.c \
-
-SRC_LIBFT=ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c \
-ft_strmapi.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c 
+SRC=ft_printf.c parse.c print_cspx.c print_diu.c utils1.c utils2.c
 
 OBJ=$(SRC:.c=.o)
-
-OBJ_LIBFT=$(SRC_LIBFT:.c=.o)
 
 .c.o: 
 	$(CC) $(CFLAGS) $(COPTION) $@ $<
@@ -27,13 +32,10 @@ OBJ_LIBFT=$(SRC_LIBFT:.c=.o)
 $(NAME): $(OBJ)
 	$(AR) $@ $^
 
-libft: $(OBJ_LIBFT)
-	$(AR) $(NAME) $^
-
-all: $(NAME) libft
+all: $(NAME)
 
 clean:
-	$(RM) $(OBJ) $(OBJ_LIBFT)
+	$(RM) $(OBJ)
 
 fclean: clean
 	$(RM) $(NAME)
