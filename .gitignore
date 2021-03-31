@@ -7,4 +7,11 @@ test.c
 *.o
 *.dSYM
 ft_printf_main
+a.out
+*.gch
 main
+main.c
+ft_printf
+ft_itoa
+ft_utils
+ft_itoa_basepft/

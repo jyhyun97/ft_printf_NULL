@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gilee <gilee@42seoul.student.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/27 20:40:38 by gilee             #+#    #+#             */
+/*   Updated: 2021/03/27 20:40:39 by gilee            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	*ft_memset(void *b, int c, size_t len)
@@ -24,10 +36,10 @@ void	*ft_calloc(size_t count, size_t size)
 
 char	*ft_strchr(const char *s, int c)
 {
-	size_t	len;
+	int	len;
 
 	len = ft_strlen(s) + 1;
-	while (len--)
+	while (len-- > 0)
 	{
 		if (*s++ == (char)c)
 			return ((char *)--s);
@@ -37,14 +49,12 @@ char	*ft_strchr(const char *s, int c)
 
 size_t	ft_strlen(const char *src)
 {
-	size_t count;
+	size_t i;
 
-	count = 0;
-	while (*src++ != '\0')
-	{
-		count++;
-	}
-	return (count);
+	i = 0;
+	while (src[i])
+		i++;
+	return (i);
 }
 
 void	*ft_memcpy(void *d, void const *s, size_t n)
@@ -60,8 +70,8 @@ void	*ft_memcpy(void *d, void const *s, size_t n)
 		return (NULL);
 	if ((ps != NULL) || (pd != NULL))
 	{
-		while (n--)
-			*pd++ = *ps++;
+		while (n-- > 0)
+			*(char *)d++ = *ps++;
 	}
-	return (d);
+	return (pd);
 }
